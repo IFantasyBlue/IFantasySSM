@@ -42,20 +42,20 @@
             </javaClientGenerator>  
       
             <!-- 要生成哪些表 -->  
-            <table tableName="VIP_info" domainObjectName="VIPInfo"  
+          <!--   <table tableName="VIP_info" domainObjectName="VIPInfo"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> 
+                selectByExampleQueryId="false"></table>  -->
                 
                 <!-- <table tableName="activity" domainObjectName="Activity"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>   
+                selectByExampleQueryId="false"></table>   -->
                 
-                <table tableName="belongTeam" domainObjectName="BelongTeam"  
+                <!-- <table tableName="belongTeam" domainObjectName="BelongTeam"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>   -->
+                selectByExampleQueryId="false"></table>  -->  
                 
                 <!-- <table tableName="chat" domainObjectName="Chat"  
                 enableCountByExample="false" enableUpdateByExample="false"  
@@ -80,19 +80,19 @@
                 <table tableName="package" domainObjectName="Package"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>
+                selectByExampleQueryId="false"></table>-->
                   
-                <table tableName="players" domainObjectName="Players"  
+              <!--   <table tableName="players" domainObjectName="Players"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> 
+                selectByExampleQueryId="false"></table>   -->
                  
-                <table tableName="players_info" domainObjectName="Players_Info"  
+               <!--  <table tableName="players_info" domainObjectName="PlayersInfo"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> 
+                selectByExampleQueryId="false"></table>  -->
                  
-                <table tableName="players_stats" domainObjectName="Players_Stats"  
+               <!-- <table tableName="players_stats" domainObjectName="Players_Stats"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>
@@ -107,15 +107,22 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-              <!--   <table tableName="user" domainObjectName="User"  
+                 <table tableName="user" domainObjectName="User"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  
-                
+                <!--
                 <table tableName="user_Info" domainObjectName="User_Info"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
-                 
+                 <table tableName="D_tactics" domainObjectName="DTactics"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>
+                <table tableName="O_tactics" domainObjectName="OTactics"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>
         </context>  
     </generatorConfiguration>  
