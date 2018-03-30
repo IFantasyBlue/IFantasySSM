@@ -16,6 +16,7 @@ import com.cn.ssm.service.IBelongTeamService;
 import com.cn.ssm.service.ILineupService;
 import com.cn.ssm.service.IPlayersInfoService;
 import com.cn.ssm.service.IPlayersService;
+import com.cn.ssm.service.IPlayers_statsService;
 import com.cn.ssm.service.ITeamMembersService;
 import com.cn.ssm.service.IUserService;
 import com.cn.ssm.service.IUser_InfoService;
@@ -40,7 +41,9 @@ public class TeamController {
     private IPlayersService playersService;
     @Resource
     private IPlayersInfoService playersInfoService;
-
+    @Resource
+    private IPlayers_statsService iPlayers_statsService;
+    
     @RequestMapping("teamShow")
     public String toIndex(HttpServletRequest request,Model model){
         int userId = Integer.parseInt(request.getParameter("id"));
@@ -89,5 +92,16 @@ public class TeamController {
         
         return "showPlayer";
     }
+    
+    @RequestMapping("playerStatsShow")
+    public String showPlayerStats(HttpServletRequest request,Model model){
+        int player_id = Integer.parseInt(request.getParameter("player_id"));
 
+        Players_Stats players_Stats = new Players_Stats();
+        players_Stats=iPlayers_statsService.getById(player_id);
+        
+        JSONObject json = JSONObject.fromObject(players_Stats);
+        
+        return "showPlayerStats";
+    }
 }
