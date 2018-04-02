@@ -21,4 +21,9 @@ public class LineupServiceImpl implements ILineupService {
 		return lineupMapper.selectByPrimaryKey(id);
 	}
 
+	public int updateLineup(Lineup lineup) {
+		// TODO Auto-generated method stub
+		return lineupMapper.updateByPrimaryKey(lineup);
+	}
+
 }

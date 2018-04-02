@@ -5,4 +5,5 @@ import com.cn.ssm.entity.Lineup;
 public interface ILineupService {
 
 	public Lineup getById(int id);
+	public int updateLineup(Lineup lineup);
 }

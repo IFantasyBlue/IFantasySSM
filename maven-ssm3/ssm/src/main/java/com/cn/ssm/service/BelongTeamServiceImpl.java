@@ -19,5 +19,9 @@ public class BelongTeamServiceImpl implements IBelongTeamService {
 		// TODO Auto-generated method stub
 		return belongTeamMapper.selectByPrimaryKey(id);
 	}
+	public int updateBelongTeam(BelongTeam belongTeam) {
+		// TODO Auto-generated method stub
+		return belongTeamMapper.updateByPrimaryKey(belongTeam);
+	}
 
 }
