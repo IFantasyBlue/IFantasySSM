@@ -23,9 +23,4 @@ public class UserServiceImpl implements IUserService {
 		return user;
 	}
 
-	public int updateUserByMoney(User user) {
-		// TODO Auto-generated method stub
-		return userMapper.updateByPrimaryKey(user);
-	}
-
 }

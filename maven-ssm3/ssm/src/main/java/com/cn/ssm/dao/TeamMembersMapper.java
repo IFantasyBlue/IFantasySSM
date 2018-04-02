@@ -28,7 +28,4 @@ public interface TeamMembersMapper {
      * @mbggenerated
      */
     List<TeamMembers> selectByKey(Integer id);
-    
-    int updateTeamMembers(int user_id,int player_id,int status);
-    int delTeamMembers(int user_id,int player_id);
 }

@@ -50,6 +50,4 @@ public interface LineupMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Lineup record);
-    
-   
 }

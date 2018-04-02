@@ -74,18 +74,4 @@
       </if>
     </trim>
   </insert>
-      <update id="updateTeamMembers">  
-        update teamMembers  
-        <set >  
-          <if test="status != null" >  
-            status = #{status,jdbcType=BIT},  
-          </if>  
-          
-        </set>  
-        where user_id = #{user_id,jdbcType=INTEGER} and player_id = #{player_id,jdbcType=INTEGER}
-      </update>  
-      <delete id="delTeamMembers">
-      delete from teamMembers
-      where user_id = #{user_id,jdbcType=INTEGER} and player_id = #{player_id,jdbcType=INTEGER}
-      </delete>
 </mapper>
