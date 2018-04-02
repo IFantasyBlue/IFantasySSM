@@ -1,4 +1,4 @@
-      
+<?xml version="1.0" encoding="UTF-8"?>  
     <!DOCTYPE generatorConfiguration  
       PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
       "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
@@ -42,9 +42,87 @@
             </javaClientGenerator>  
       
             <!-- 要生成哪些表 -->  
-            <table tableName="test" domainObjectName="test"  
+          <!--   <table tableName="VIP_info" domainObjectName="VIPInfo"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  -->
+                
+                <!-- <table tableName="activity" domainObjectName="Activity"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>   -->
+                
+                <!-- <table tableName="belongTeam" domainObjectName="BelongTeam"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  -->  
+                
+                <!-- <table tableName="chat" domainObjectName="Chat"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  
+                
+                <table tableName="friends" domainObjectName="Friends"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  
+                
+                <table tableName="goods" domainObjectName="Goods"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  
+                
+                <table tableName="lineup" domainObjectName="Lineup"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table> 
+                 
+                <table tableName="package" domainObjectName="Package"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>-->
+                  
+              <!--   <table tableName="players" domainObjectName="Players"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>   -->
+                 
+               <!--  <table tableName="players_info" domainObjectName="PlayersInfo"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  -->
+                 
+               <!-- <table tableName="players_stats" domainObjectName="Players_Stats"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>
+                  
+                <table tableName="setting" domainObjectName="Setting"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  -->
+                 
+             <!--    <table tableName="teamMembers" domainObjectName="TeamMembers"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>   -->
+                
+                 <table tableName="user" domainObjectName="User"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  
+                <!--
+                <table tableName="user_Info" domainObjectName="User_Info"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>   -->
+                 <table tableName="D_tactics" domainObjectName="DTactics"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>
+                <table tableName="O_tactics" domainObjectName="OTactics"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>
         </context>  
     </generatorConfiguration>  
