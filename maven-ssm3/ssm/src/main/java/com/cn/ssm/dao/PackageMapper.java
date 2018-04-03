@@ -56,6 +56,6 @@ public interface PackageMapper {
     int updateByPrimaryKey(Package record);
     
     //自定义功能方法
-    @Select("select * from package where packageNum= #{package_num} ") 
+    @Select("select * from package where package_num= #{packageNum} ") 
     public List<Package>  list(int packageNum);
 }
