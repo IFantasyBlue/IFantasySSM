@@ -1,5 +1,9 @@
 package com.cn.ssm.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Select;
+
 import com.cn.ssm.entity.Package;
 
 public interface PackageMapper {
@@ -50,4 +54,8 @@ public interface PackageMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Package record);
+    
+    //自定义功能方法
+    @Select("select * from package where packageNum= #{package_num} ") 
+    public List<Package>  list(int packageNum);
 }
