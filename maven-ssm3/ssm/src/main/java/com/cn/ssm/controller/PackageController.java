@@ -12,10 +12,10 @@ import com.cn.ssm.entity.Package;
 
 
 @Controller// 注册为spring容器bean
-@RequestMapping("/package")//请求映射
+@RequestMapping("/")//请求映射
 public class PackageController {
 	//@Resource //注入对象
-	@RequestMapping("/package")
+	@RequestMapping(value="package")
 	public ModelAndView show(HttpServletRequest request, HttpServletResponse response)  throws Exception {
         ModelAndView mav = new ModelAndView("package");
         return mav;
