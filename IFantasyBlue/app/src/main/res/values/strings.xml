@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">IFantasy-Blue</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_phonenumber">输入手机号</string>
+    <string name="prompt_check_passwd">输入验证码 </string>
+    <string name="action_get_check_passwd">获取验证码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="error_invalid_phonenumber">请输入正确的手机号</string>
+    <string name="error_incorret_check_passwd">验证码不正确</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+</resources>
