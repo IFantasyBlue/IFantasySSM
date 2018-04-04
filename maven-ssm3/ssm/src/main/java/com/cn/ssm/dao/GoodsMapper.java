@@ -1,6 +1,11 @@
 package com.cn.ssm.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Select;
+
 import com.cn.ssm.entity.Goods;
+import com.cn.ssm.entity.Package;
 
 public interface GoodsMapper {
     /**
@@ -50,4 +55,8 @@ public interface GoodsMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Goods record);
+    
+    //自定义方法
+    public Goods select_by_ID(int goods_ID);
+    
 }

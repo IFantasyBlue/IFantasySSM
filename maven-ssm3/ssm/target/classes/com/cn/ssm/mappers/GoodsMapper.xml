@@ -100,4 +100,6 @@
       goods_intro = #{goodsIntro,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  
+
 </mapper>

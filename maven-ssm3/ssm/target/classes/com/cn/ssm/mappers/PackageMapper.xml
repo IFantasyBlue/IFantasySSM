@@ -103,11 +103,12 @@
       package_num = #{packageNum,jdbcType=INTEGER}
     where package_ID = #{packageId,jdbcType=INTEGER}
   </update>
-  
-  <select id="selectByPackagNum" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+
+  <select id="selectByPackage_num" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from package
     where package_num = #{packageNum,jdbcType=INTEGER}
   </select>
+
 </mapper>

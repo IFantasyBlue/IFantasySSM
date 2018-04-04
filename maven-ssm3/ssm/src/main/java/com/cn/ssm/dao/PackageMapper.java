@@ -2,8 +2,6 @@ package com.cn.ssm.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Select;
-
 import com.cn.ssm.entity.Package;
 
 public interface PackageMapper {
@@ -56,6 +54,11 @@ public interface PackageMapper {
     int updateByPrimaryKey(Package record);
     
     //自定义功能方法
-    @Select("select * from package where package_num= #{packageNum} ") 
-    public List<Package>  list(int packageNum);
+    
+    //注解方式实现--需要mybatis-config.xml文件配置，不知道怎么做
+   //@Select("select * from package where package_num= #{packageNum} ") 
+   // public List<Package>  select_by_package_num(int packageNum);
+    
+  //xml配置方式
+   public List<Package>  selectByPackage_num(int packageNum);
 }
