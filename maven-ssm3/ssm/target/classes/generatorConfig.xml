@@ -92,12 +92,12 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  -->
                  
-               <!-- <table tableName="players_stats" domainObjectName="Players_Stats"  
+               <table tableName="players_stats" domainObjectName="Players_Stats"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>
                   
-                <table tableName="setting" domainObjectName="Setting"  
+              <!--   <table tableName="setting" domainObjectName="Setting"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  -->
@@ -107,22 +107,22 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                 <table tableName="user" domainObjectName="User"  
+                <!--  <table tableName="user" domainObjectName="User"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  
+                selectByExampleQueryId="false"></table>  --> 
                 <!--
                 <table tableName="user_Info" domainObjectName="User_Info"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
-                 <table tableName="D_tactics" domainObjectName="DTactics"  
+                <!--  <table tableName="D_tactics" domainObjectName="DTactics"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>
                 <table tableName="O_tactics" domainObjectName="OTactics"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>
+                selectByExampleQueryId="false"></table> -->
         </context>  
     </generatorConfiguration>  

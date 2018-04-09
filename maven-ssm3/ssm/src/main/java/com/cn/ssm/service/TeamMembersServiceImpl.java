@@ -22,13 +22,17 @@ public class TeamMembersServiceImpl implements ITeamMembersService {
 		// TODO Auto-generated method stub
 		return (List<TeamMembers>) teamMembersMapper.selectByKey(id);
 	}
-	public int updateTeamMembers(int user_id, int player_id, int status) {
+	public int updateTeamMembers(int user_id, int player_id, Boolean status) {
 		// TODO Auto-generated method stub
 		return teamMembersMapper.updateTeamMembers(user_id, player_id, status);
 	}
 	public int delTeamMembers(int user_id, int player_id) {
 		// TODO Auto-generated method stub
 		return teamMembersMapper.delTeamMembers(user_id, player_id);
+	}
+	public TeamMembers selectByKey2(Integer id) {
+		// TODO Auto-generated method stub
+		return teamMembersMapper.selectByKey2(id);
 	}
 
 }

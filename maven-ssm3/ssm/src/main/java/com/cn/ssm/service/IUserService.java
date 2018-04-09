@@ -6,4 +6,5 @@ public interface IUserService {
 
 	public User getById(int id);
 	public int updateUserByMoney(User user);
+	
 }
