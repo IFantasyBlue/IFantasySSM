@@ -2,6 +2,7 @@ package com.cn.ssm.dao;
 
 import java.util.List;
 
+
 import com.cn.ssm.entity.Package;
 
 public interface PackageMapper {
@@ -53,12 +54,14 @@ public interface PackageMapper {
      */
     int updateByPrimaryKey(Package record);
     
-    //自定义功能方法
+    //自定义方法
     
-    //注解方式实现--需要mybatis-config.xml文件配置，不知道怎么做
-   //@Select("select * from package where package_num= #{packageNum} ") 
-   // public List<Package>  select_by_package_num(int packageNum);
-    
-  //xml配置方式
-   public List<Package>  selectByPackage_num(int packageNum);
+    //xml配置方式
+    public List<Package> selectByUserID(int userID);
+    //按物品种类分类
+    public List<Package> selectByUserID_orderbygoods_ID(int userID);
+    //查询用户名下仓库中是否存在该类物品
+    Package selectByUserID_goodsid(int userID,int goodsid);
+    //按主键自增方式插入记录
+    int insert_autoIncrement(Package record);
 }

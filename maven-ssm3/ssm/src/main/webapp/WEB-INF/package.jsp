@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>package</h1>
-<strong>${message}</strong>
+<strong>${message}</strong><br/><br/>
 ${ goods }<br/><br/>
 ${ records }<br/><br/>
 </body>

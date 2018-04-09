@@ -17,7 +17,7 @@
             <!--数据库链接 参数 -->  
             <jdbcConnection driverClass="com.mysql.jdbc.Driver"  
                 connectionURL="jdbc:mysql://localhost:3306/nba" userId="root"  
-                password="yangjinli9658">  
+                password="123456">  
             </jdbcConnection>  
             <javaTypeResolver>  
                 <!-- This property is used to specify whether MyBatis Generator should   
@@ -65,22 +65,22 @@
                 <table tableName="friends" domainObjectName="Friends"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  
+                selectByExampleQueryId="false"></table>  -->
                 
                 <table tableName="goods" domainObjectName="Goods"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  
                 
-                <table tableName="lineup" domainObjectName="Lineup"  
+               <!-- <table tableName="lineup" domainObjectName="Lineup"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> 
+                selectByExampleQueryId="false"></table> -->
                  
                 <table tableName="package" domainObjectName="Package"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>-->
+                selectByExampleQueryId="false"></table>
                   
               <!--   <table tableName="players" domainObjectName="Players"  
                 enableCountByExample="false" enableUpdateByExample="false"  
@@ -107,10 +107,10 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                 <table tableName="user" domainObjectName="User"  
+                 <!-- <table tableName="user" domainObjectName="User"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  
+                selectByExampleQueryId="false"></table>   -->
                 <!--
                 <table tableName="user_Info" domainObjectName="User_Info"  
                 enableCountByExample="false" enableUpdateByExample="false"  
