@@ -67,6 +67,122 @@ public class TeamController {
         
         return "showUser";
     }
+    @RequestMapping("teamShowC")
+    public String toTeamC(HttpServletRequest request,Model model){
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+
+        User user = userService.getById(user_id);
+
+        User_Info user_Info = user_InfoService.getById(user.getUserinfo());
+        BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
+        Lineup lineup=lineupService.getById(belongTeam.getLineup());
+        List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "C");
+        TeamVO teamVo=new TeamVO();
+        teamVo.setMoney(user.getMoney());
+        teamVo.setPower(user.getPower());
+        teamVo.setList(list);
+     model.addAttribute("user", user);
+    model.addAttribute("user_info", user_Info);
+  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+   model.addAttribute("list", list);
+   
+//        JSONObject json = JSONObject.fromObject(teamVo);
+        
+        return "showUser";
+    }
+    @RequestMapping("teamShowPF")
+    public String toTeamPF(HttpServletRequest request,Model model){
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+
+        User user = userService.getById(user_id);
+
+        User_Info user_Info = user_InfoService.getById(user.getUserinfo());
+        BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
+        Lineup lineup=lineupService.getById(belongTeam.getLineup());
+        List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "PF");
+        TeamVO teamVo=new TeamVO();
+        teamVo.setMoney(user.getMoney());
+        teamVo.setPower(user.getPower());
+        teamVo.setList(list);
+     model.addAttribute("user", user);
+    model.addAttribute("user_info", user_Info);
+  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+   model.addAttribute("list", list);
+   
+//        JSONObject json = JSONObject.fromObject(teamVo);
+        
+        return "showUser";
+    }
+    @RequestMapping("teamShowPG")
+    public String toTeamPG(HttpServletRequest request,Model model){
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+
+        User user = userService.getById(user_id);
+
+        User_Info user_Info = user_InfoService.getById(user.getUserinfo());
+        BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
+        Lineup lineup=lineupService.getById(belongTeam.getLineup());
+        List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "PG");
+        TeamVO teamVo=new TeamVO();
+        teamVo.setMoney(user.getMoney());
+        teamVo.setPower(user.getPower());
+        teamVo.setList(list);
+     model.addAttribute("user", user);
+    model.addAttribute("user_info", user_Info);
+  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+   model.addAttribute("list", list);
+   
+//        JSONObject json = JSONObject.fromObject(teamVo);
+        
+        return "showUser";
+    }
+    @RequestMapping("teamShowSG")
+    public String toTeamSG(HttpServletRequest request,Model model){
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+
+        User user = userService.getById(user_id);
+
+        User_Info user_Info = user_InfoService.getById(user.getUserinfo());
+        BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
+        Lineup lineup=lineupService.getById(belongTeam.getLineup());
+        List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "SG");
+        TeamVO teamVo=new TeamVO();
+        teamVo.setMoney(user.getMoney());
+        teamVo.setPower(user.getPower());
+        teamVo.setList(list);
+     model.addAttribute("user", user);
+    model.addAttribute("user_info", user_Info);
+  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+   model.addAttribute("list", list);
+   
+//        JSONObject json = JSONObject.fromObject(teamVo);
+        
+        return "showUser";
+    }
+    @RequestMapping("teamShowSF")
+    public String toTeamSF(HttpServletRequest request,Model model){
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+
+        User user = userService.getById(user_id);
+
+        User_Info user_Info = user_InfoService.getById(user.getUserinfo());
+        BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
+        Lineup lineup=lineupService.getById(belongTeam.getLineup());
+        List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "SF");
+        TeamVO teamVo=new TeamVO();
+        teamVo.setMoney(user.getMoney());
+        teamVo.setPower(user.getPower());
+        teamVo.setList(list);
+     model.addAttribute("user", user);
+    model.addAttribute("user_info", user_Info);
+  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+   model.addAttribute("list", list);
+   
+//        JSONObject json = JSONObject.fromObject(teamVo);
+        
+        return "showUser";
+    }
+    
     
     @RequestMapping("playerShow")
     public String toPlayer(HttpServletRequest request,Model model){
@@ -93,6 +209,8 @@ public class TeamController {
         return "showPlayer";
     }
     
+    
+    
     @RequestMapping("playerStatsShow")
     public String showPlayerStats(HttpServletRequest request,Model model){
         int player_id = Integer.parseInt(request.getParameter("player_id"));
@@ -108,8 +226,10 @@ public class TeamController {
     public String playerIn(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
         int player_id = Integer.parseInt(request.getParameter("player_id"));
-        TeamMembers teamMembers=teamMembersService.selectByKey2(player_id);
+        User user = userService.getById(user_id);
+        TeamMembers teamMembers=teamMembersService.selectByKey2(user_id,player_id);
         Players players=playersService.getById(player_id);
+        Players_Stats player = iPlayers_statsService.getById(player_id);
         Lineup lineup=lineupService.getById(user_id);
         if(lineup.getC()==player_id || lineup.getPf()==player_id || lineup.getPg()==player_id || lineup.getSf()==player_id || lineup.getSg()==player_id){
         	String error="{"+"mesg"+":"+"player is already in."+"}";
@@ -117,7 +237,15 @@ public class TeamController {
         }else{
         	if(players.getPosition().equals("C")){
         		int id = lineup.getC();
-        		TeamMembers teamMembers2=teamMembersService.selectByKey2(id);
+        		Players_Stats player2 = iPlayers_statsService.getById(id);
+        		double player_ev=player.getPerEv().doubleValue();
+        		double player2_ev=player2.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power);
+        		userService.updateByKey(user);
+        		TeamMembers teamMembers2=teamMembersService.selectByKey2(user_id,id);
+        		
         		teamMembersService.updateTeamMembers(user_id, player_id, true);
         		teamMembersService.updateTeamMembers(user_id, id, false);
         		lineup.setC(player_id);
@@ -126,7 +254,13 @@ public class TeamController {
         		
         	}else if(players.getPosition().equals("PF")){
         		int id = lineup.getPf();
-        		TeamMembers teamMembers2=teamMembersService.selectByKey2(id);
+        		Players_Stats player2 = iPlayers_statsService.getById(id);
+        		double player_ev=player.getPerEv().doubleValue();
+        		double player2_ev=player2.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player2_power-player_power);
+        		TeamMembers teamMembers2=teamMembersService.selectByKey2(user_id,id);
         		teamMembersService.updateTeamMembers(user_id, player_id, true);
         		teamMembersService.updateTeamMembers(user_id, id, false);
         		lineup.setPf(player_id);
@@ -134,7 +268,13 @@ public class TeamController {
         		return "playerIn";
         	}else if(players.getPosition().equals("PG")){
         		int id = lineup.getPg();
-        		TeamMembers teamMembers2=teamMembersService.selectByKey2(id);
+        		Players_Stats player2 = iPlayers_statsService.getById(id);
+        		double player_ev=player.getPerEv().doubleValue();
+        		double player2_ev=player2.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player2_power-player_power);
+        		TeamMembers teamMembers2=teamMembersService.selectByKey2(user_id,id);
         		teamMembersService.updateTeamMembers(user_id, player_id, true);
         		teamMembersService.updateTeamMembers(user_id, id, false);
         		lineup.setPg(player_id);
@@ -142,7 +282,13 @@ public class TeamController {
         		return "playerIn";
         	}else if(players.getPosition().equals("SF")){
         		int id = lineup.getSf();
-        		TeamMembers teamMembers2=teamMembersService.selectByKey2(id);
+        		Players_Stats player2 = iPlayers_statsService.getById(id);
+        		double player_ev=player.getPerEv().doubleValue();
+        		double player2_ev=player2.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player2_power-player_power);
+        		TeamMembers teamMembers2=teamMembersService.selectByKey2(user_id,id);
         		teamMembersService.updateTeamMembers(user_id, player_id, true);
         		teamMembersService.updateTeamMembers(user_id, id, false);
         		lineup.setSf(player_id);
@@ -150,7 +296,13 @@ public class TeamController {
         		return "playerIn";
         	}else{
         		int id = lineup.getSg();
-        		TeamMembers teamMembers2=teamMembersService.selectByKey2(id);
+        		Players_Stats player2 = iPlayers_statsService.getById(id);
+        		double player_ev=player.getPerEv().doubleValue();
+        		double player2_ev=player2.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player2_power-player_power);
+        		TeamMembers teamMembers2=teamMembersService.selectByKey2(user_id,id);
         		teamMembersService.updateTeamMembers(user_id, player_id, true);
         		teamMembersService.updateTeamMembers(user_id, id, false);
         		lineup.setSg(player_id);
@@ -165,14 +317,181 @@ public class TeamController {
         
         
     }
-    @RequestMapping("repalcePlayer")
+    @RequestMapping("replacePlayer")
     public String repalcePlayer(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
+        User user = userService.getById(user_id);
         int player_in_id = Integer.parseInt(request.getParameter("player_in_id"));
         int player_out_id = Integer.parseInt(request.getParameter("player_out_id"));
-        String position = request.getParameter("position");
+        Players player_in=playersService.getById(player_in_id);
+        Players player_out=playersService.getById(player_out_id);
+        Players_Stats player_in_stats=iPlayers_statsService.getById(player_in_id);
+        Players_Stats player_out_stats=iPlayers_statsService.getById(player_out_id);
+        
+        
         Lineup lineup=lineupService.getById(user_id);
         String mesg="{"+"mesg"+":"+"replace player successfully."+"}";
+        if(player_in.getPosition().equals(player_out.getPosition())){
+        	
+        	if(player_in.getPosition().equals("C")){
+        		
+        		
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setC(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        		
+        	}else if(player_in.getPosition().equals("PF")){
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setPf(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}else if(player_in.getPosition().equals("PG")){
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setPg(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}else if(player_in.getPosition().equals("SF")){
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setSf(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}else{
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setSg(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}
+        	
+        }else{
+        	
+        	if(player_out.getPosition().equals("C")){
+        		
+        		
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power-10);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setC(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        		
+        	}else if(player_out.getPosition().equals("PF")){
+
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power-10);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setPf(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}else if(player_out.getPosition().equals("PG")){
+
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power-10);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setPg(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}else if(player_out.getPosition().equals("SF")){
+
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power-10);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setSf(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}else{
+
+        		double player_ev=player_in_stats.getPerEv().doubleValue();
+        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player2_power=(int) Math.floor((100*player2_ev/27.9));
+        		user.setPower(user.getPower()+player_power-player2_power-10);
+        		userService.updateByKey(user);
+        		
+        		
+        		teamMembersService.updateTeamMembers(user_id, player_in_id, true);
+        		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
+        		lineup.setSg(player_in_id);
+        		lineupService.updateLineup(lineup);
+        		return "playerIn";
+        	}
+        	
+        }
+        
+        /*
         if(position.equals("C")){
         	lineup.setC(player_in_id);
         	lineupService.updateLineup(lineup);
@@ -208,7 +527,7 @@ public class TeamController {
         	teamMembersService.updateTeamMembers(user_id, player_in_id, true);
         	teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         	return mesg;
-        }
+        }*/
         
         
         

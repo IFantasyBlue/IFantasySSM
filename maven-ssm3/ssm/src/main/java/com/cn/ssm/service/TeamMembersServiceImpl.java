@@ -30,9 +30,13 @@ public class TeamMembersServiceImpl implements ITeamMembersService {
 		// TODO Auto-generated method stub
 		return teamMembersMapper.delTeamMembers(user_id, player_id);
 	}
-	public TeamMembers selectByKey2(Integer id) {
+	public TeamMembers selectByKey2(int uer_id,int player_id) {
 		// TODO Auto-generated method stub
-		return teamMembersMapper.selectByKey2(id);
+		return teamMembersMapper.selectByKey2(uer_id,player_id);
+	}
+	public List<TeamMembers> selectByKey3(int user_id, String position) {
+		// TODO Auto-generated method stub
+		return teamMembersMapper.selectByKey3(user_id, position);
 	}
 
 }

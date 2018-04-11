@@ -11,6 +11,7 @@
     <%for(int i=0;i<list.size();i++){ %>
     <%TeamMembers t=(TeamMembers)list.get(i);%>
     <%=t.getPosition() %>
+    <%=t.getPlayerId() %>
     <%} %>
     <%User_Info user_info = (User_Info)request.getAttribute("user_info"); %>
     <%=user_info.getBelongteam() %>

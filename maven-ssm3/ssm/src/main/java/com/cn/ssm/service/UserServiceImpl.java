@@ -28,4 +28,9 @@ public class UserServiceImpl implements IUserService {
 		return userMapper.updateByPrimaryKey(user);
 	}
 
+	public int updateByKey(User user) {
+		// TODO Auto-generated method stub
+		return userMapper.updateByPrimaryKey(user);
+	}
+
 }
