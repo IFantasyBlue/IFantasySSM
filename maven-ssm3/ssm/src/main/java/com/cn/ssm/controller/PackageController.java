@@ -18,6 +18,7 @@ import com.cn.ssm.entity.Goods;
 import com.cn.ssm.service.IUserService;
 import com.cn.ssm.dao.PackageMapper;
 import com.cn.ssm.dao.GoodsMapper;
+import com.cn.ssm.dao.UserMapper;
 
 @Controller// 注册为spring容器bean
 @RequestMapping("/")//请求映射
@@ -28,6 +29,8 @@ public class PackageController {
     private PackageMapper packageMapper;
     	@Resource
     private GoodsMapper goodsMapper;
+    	@Resource
+    private UserMapper userMapper;
     
     private User user=null;
     	String message = new String();
@@ -36,8 +39,7 @@ public class PackageController {
     boolean order=true;//标记排序方式
     public void init(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//从HttpRequest解析用户信息，从中得到用户ID
-		//int userID= Integer.parseInt(request.getParameter("id"));
-		//user=userService.getById(userID);
+		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
 		records.clear();
 		goods.clear();
 		message="按获得时间顺序排序";
@@ -55,8 +57,7 @@ public class PackageController {
     
     public void reorder(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//从HttpRequest解析用户信息，从中得到用户ID
-		//int userID= Integer.parseInt(request.getParameter("id"));
-		//user=userService.getById(userID);
+    		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
 		records.clear();
 		goods.clear();
 		records=packageMapper.selectByUserID_orderbygoods_ID(0);//user.getID());
@@ -83,7 +84,7 @@ public class PackageController {
 
     @RequestMapping(value="package")
 	private ModelAndView package_index(HttpServletRequest request, HttpServletResponse response)  throws Exception {
-    	if(order)
+    	if(order)//显示顺序
     		{
     			init(request,response);
     		}
@@ -143,12 +144,38 @@ public class PackageController {
 	public ModelAndView apply(HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		//从前端的item获取package_id
 		int package_id=1;
-	
 		Package record=records.get(package_id);
 		Goods good=goods.get(package_id);
 		
-		//添加消耗品表记录
-		
+		switch(good.getGoodsType())
+		{
+			//使用金币卡
+			case "gold":
+			{
+				//变更用户账户金额
+				user.setMoney(user.getMoney()+good.getGoodsAttr());
+				userMapper.updateByPrimaryKey(user);
+				
+				//更新package中记录
+				record.setGoodsNum(record.getGoodsNum()-1);
+				if(record.getGoodsNum()==0)
+				{
+					packageMapper.deleteByPrimaryKey(record.getPackageId());
+				}
+				else
+				{
+					packageMapper.updateByPrimaryKey(record);
+				}
+				break;
+			}
+			case "tiyan":
+			{
+				//添加体验卡记录
+				break;
+			}
+			default:
+				break;
+		}
 
 		return new ModelAndView("redirect:/package");
 	}

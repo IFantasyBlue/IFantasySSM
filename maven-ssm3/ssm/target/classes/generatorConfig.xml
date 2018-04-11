@@ -57,15 +57,15 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  -->  
                 
-                <!-- <table tableName="chat" domainObjectName="Chat"  
+                 <!-- <table tableName="chat" domainObjectName="Chat"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  
+                selectByExampleQueryId="false"></table>   -->
                 
-                <table tableName="friends" domainObjectName="Friends"  
+                <!-- <table tableName="friends" domainObjectName="Friends"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  -->
+                selectByExampleQueryId="false"></table>   -->
                 
                 <!-- <table tableName="goods" domainObjectName="Goods"  
                 enableCountByExample="false" enableUpdateByExample="false"  
