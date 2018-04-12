@@ -18,7 +18,7 @@
                  <td align = "center">${chat.receiveId}</td>  
                  <td align = "center">${chat.time}</td>  
                  <td align = "center">${chat.content}</td>
-                 <br>
+          <br/>
              </tr>  
     </c:forEach>  
     <hr>

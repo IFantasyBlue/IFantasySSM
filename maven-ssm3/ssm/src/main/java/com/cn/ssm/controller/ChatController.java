@@ -41,14 +41,20 @@ public class ChatController {
     private List<Chat> world_records=new ArrayList<>();
     private List<Chat> friend_records=new ArrayList<>();
     
-    
-    public void init(HttpServletRequest request, HttpServletResponse response) {
+    private void init(HttpServletRequest request, HttpServletResponse response) {
 		//从HttpRequest解析用户信息，从中得到用户ID
     		//if(sender==null) sender=userService.getById(Integer.parseInt(request.getParameter("id")));
     		world_records=chatMapper.selectByReceive_ID(-1);//广播信息的recive_ID为-1
     		friend_records=chatMapper.selectByReceive_ID(1);//user.getID()
     		friends_ID=friendsMapper.selectByUser_ID(1);//user.getID()
+    		friends.clear();
+    		//列出好友
+        for(int i=0;i<friends_ID.size();i++)
+        	{
+        		friends.add(userMapper.selectByPrimaryKey(friends_ID.get(i)));
+        	}
 	}
+    
     private ModelAndView show(HttpServletRequest request, HttpServletResponse response)  throws Exception {
     	ModelAndView mav = new ModelAndView("chat");
     	mav.addObject("world_records",world_records.toString());
@@ -76,20 +82,22 @@ public class ChatController {
     		chatMapper.insert_AI(record);
     	return new ModelAndView("redirect:/chat");
     }
+   
+    //选择聊天好友
+    @RequestMapping("chat/init_receiver")
+    private ModelAndView init_receiver(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        	int id=1;//前端获取id
+        	System.out.println(id);
+        	//receiver=userMapper.selectByPrimaryKey(id);
+        	
+        return new ModelAndView("redirect:/chat");
+    }
     
   //发送私有聊天
     @RequestMapping(value="chat/whisper")
     public ModelAndView Whisper(HttpServletRequest request, HttpServletResponse response) throws Exception
-    {
-    		friends.clear();
-    		//列出好友
-        	for(int i=0;i<friends_ID.size();i++)
-        	{
-        		friends.add(userMapper.selectByPrimaryKey(friends_ID.get(i)));
-        	}
-    		//获取好友ID
-    		//receiver=userMapper.selectByPrimaryKey(id);
-    	
+    { 		
     		Chat record=new Chat();
     		record.setSendId(2);//sender.getID()
     		record.setReceiveId(1);//receiver.getID()
