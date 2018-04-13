@@ -52,10 +52,10 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                <!-- <table tableName="belongTeam" domainObjectName="BelongTeam"  
+                 <!-- <table tableName="belongTeam" domainObjectName="BelongTeam"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  -->  
+                selectByExampleQueryId="false"></table>   -->
                 
                 <!-- <table tableName="chat" domainObjectName="Chat"  
                 enableCountByExample="false" enableUpdateByExample="false"  
@@ -82,21 +82,21 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>-->
                   
-              <!--   <table tableName="players" domainObjectName="Players"  
+             <!--     <table tableName="players" domainObjectName="Players"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>   -->
+                selectByExampleQueryId="false"></table>  -->  
                  
                <!--  <table tableName="players_info" domainObjectName="PlayersInfo"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  -->
                  
-               <table tableName="players_stats" domainObjectName="Players_Stats"  
+<!--                <table tableName="players_stats" domainObjectName="Players_Stats"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>
-                  
+                   -->
               <!--   <table tableName="setting" domainObjectName="Setting"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
@@ -107,10 +107,10 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                <!--  <table tableName="user" domainObjectName="User"  
+                 <table tableName="user" domainObjectName="User"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  --> 
+                selectByExampleQueryId="false"></table> 
                 <!--
                 <table tableName="user_Info" domainObjectName="User_Info"  
                 enableCountByExample="false" enableUpdateByExample="false"  
@@ -121,6 +121,10 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>
                 <table tableName="O_tactics" domainObjectName="OTactics"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table> -->
+               <!--  <table tableName="matching" domainObjectName="matching"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table> -->

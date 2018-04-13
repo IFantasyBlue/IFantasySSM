@@ -5,14 +5,12 @@
     <title>imformation</title>  
   </head>  
 
-<script language="javascript" type="text/javascript">
-setTimeout(function () { this.location.href = "http://localhost:8080/ssm/matching/Finghting?user_id="+<%=request.getAttribute("user_id") %>+"&user2_id="+<%=request.getAttribute("user2_id") %> }, 1000);
-</script> 
+
   <body>  
     <h1><%=request.getAttribute("info") %>...</h1>
     <%List<User> list=(List<User>)request.getAttribute("list"); %>
     <%=list.get(0).getUsername() %><%=list.get(0).getPower() %> VS <%=list.get(1).getUsername() %><%=list.get(1).getPower() %>
     
-    
+   
   </body>  
 </html> 
