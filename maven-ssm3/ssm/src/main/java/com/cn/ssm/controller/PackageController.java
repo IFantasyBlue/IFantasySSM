@@ -36,7 +36,52 @@ public class PackageController {
     	String message = new String();
     private List<Package> records=new ArrayList<>();
     private List<Goods> goods=new ArrayList<>();
+    
+    private List<Goods> g_props=new ArrayList<>();
+    private List<Goods> g_pieces=new ArrayList<>();
+    private List<Goods> g_equipments=new ArrayList<>();
+    
+    private List<Package> p_props=new ArrayList<>();
+    private List<Package> p_pieces=new ArrayList<>();
+    private List<Package> p_equipments=new ArrayList<>();
+    
     boolean order=true;//标记排序方式
+    
+    //分类
+    public void classify() {
+		g_props.clear();
+		g_pieces.clear();
+		g_equipments.clear();
+		p_props.clear();
+		p_pieces.clear();
+		p_equipments.clear();
+	
+		if(records.isEmpty()==false)
+		{
+			for (int i=0;i<goods.size();i++) {
+				if(goods.get(i).getGoodsType()=="prop")
+				{
+					g_props.add(goods.get(i));
+					p_props.add(records.get(i));
+				}
+				else if(goods.get(i).getGoodsType()=="piece")
+				{
+					g_pieces.add(goods.get(i));
+					p_pieces.add(records.get(i));
+				}
+				else if(goods.get(i).getGoodsType()=="equipment")
+				{
+					g_equipments.add(goods.get(i));
+					p_equipments.add(records.get(i));
+				}
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
+    
     public void init(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//从HttpRequest解析用户信息，从中得到用户ID
 		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
@@ -51,11 +96,11 @@ public class PackageController {
 				goods.add(goodsMapper.selectByPrimaryKey(records.get(i).getGoodsId()));
 			}
 		}
-		
+		classify();
 		order=true;
 	}
     
-    public void reorder(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void reorder_goodsID(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//从HttpRequest解析用户信息，从中得到用户ID
     		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
 		records.clear();
@@ -68,6 +113,28 @@ public class PackageController {
 				goods.add(goodsMapper.selectByPrimaryKey(records.get(i).getGoodsId()));
 			}
 		}
+		
+		classify();
+		
+		message="按物品类型名称排序";
+		order=false;
+	}
+    
+    public void reorder_goodsnum(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		//从HttpRequest解析用户信息，从中得到用户ID
+    		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
+		records.clear();
+		goods.clear();
+		records=packageMapper.selectByUserID_orderbygoods_num(0);//user.getID());
+	
+		if(records.isEmpty()==false)
+		{
+			for (int i=0;i<records.size();i++) {
+				goods.add(goodsMapper.selectByPrimaryKey(records.get(i).getGoodsId()));
+			}
+		}
+		
+		classify();
 		
 		message="按物品类型排序";
 		order=false;
@@ -90,7 +157,7 @@ public class PackageController {
     		}
     	else
     		{
-    			reorder(request,response);
+    			reorder_goodsID(request,response);
     		}
         	return show(request,response);	
     }
