@@ -31,6 +31,10 @@ public class TacticsController {
 	@Resource
     private IUserService userService;
 	
+	/*
+	 * 处理最开始的战术按钮响应
+	 * 向数据库查询当前装备的进攻和防守战术
+	 */
 	@RequestMapping("equipped tactics")
     public String toEquipped(HttpServletRequest request,Model model){
 		
@@ -38,14 +42,18 @@ public class TacticsController {
 
         User user = userService.getById(userId);
         TacticsVO tacticsVO = new TacticsVO();
-        tacticsVO.oTactics = oTacticsService.getByID(user.getoTactics());
-        tacticsVO.dTactics = dTacticsService.getByID(user.getdTactics());
+        tacticsVO.setoTactics(oTacticsService.getByID(user.getoTactics()));
+        tacticsVO.setdTactics(dTacticsService.getByID(user.getdTactics()));
         
         JSONObject json = JSONObject.fromObject(tacticsVO);
         
         return "equippedTactics";
     }
 	
+	/*
+	 * 处理进攻按钮相应
+	 * 向数据库查询所有的进攻战术
+	 */
     @RequestMapping("otacticsShow")
     public String toOTactics(HttpServletRequest request,Model model){
 
@@ -56,15 +64,45 @@ public class TacticsController {
         return "showOtactics";
     }
     
+    /*
+     * 处理防守按钮相应
+     * 向数据库查询所有的防守战术
+     */
     @RequestMapping("dtacticsShow")
     public String toDTactics(HttpServletRequest request,Model model){
 
-        List<DTactics> dTactics = dTacticsService.getAll();
+    	List<DTactics> dTactics = dTacticsService.getAll();
         
         JSONArray json = JSONArray.fromObject(dTactics);
         
         return "showDtactics";
     }
     
-   
+    /*
+     * 处理防守战术布置按钮相应
+     * 对于不同的战术进行不同的战力偏正计算
+     */
+    @RequestMapping("dtacticsEquipped")
+    public String toDTacticsEquipped(HttpServletRequest request,Model model){
+
+    	int dtactics_Id = Integer.parseInt(request.getParameter("dtactics_id"));
+        
+        //JSONArray json = JSONArray.fromObject(dTactics);
+        
+        return "equippedDtactics";
+    }
+    
+    /*
+     * 处理进攻战术布置按钮相应
+     * 对于不同的战术进行不同的战力偏正计算
+     */
+    @RequestMapping("otacticsEquipped")
+    public String toOTacticsEquipped(HttpServletRequest request,Model model){
+
+    	int otactics_Id = Integer.parseInt(request.getParameter("otactics_id"));
+        
+        //JSONArray json = JSONArray.fromObject(dTactics);
+        
+        return "equippedOtactics";
+    }
 }
