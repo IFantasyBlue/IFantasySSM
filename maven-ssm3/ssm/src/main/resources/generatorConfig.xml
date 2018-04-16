@@ -111,8 +111,11 @@
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
-                <!--
-                <table tableName="user_Info" domainObjectName="User_Info"  
+                <!--  <table tableName="user_Info" domainObjectName="User_Info"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>   -->
+                <!-- <table tableName="consumables" domainObjectName="Consumables"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->

@@ -1,6 +1,8 @@
 package com.cn.ssm.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cn.ssm.entity.Package;
 import com.cn.ssm.entity.User;
+import com.cn.ssm.entity.Consumables;
 import com.cn.ssm.entity.Goods;
 import com.cn.ssm.service.IUserService;
 import com.cn.ssm.dao.PackageMapper;
+import com.cn.ssm.dao.ConsumablesMapper;
 import com.cn.ssm.dao.GoodsMapper;
 import com.cn.ssm.dao.UserMapper;
 
@@ -29,6 +33,8 @@ public class PackageController {
     private PackageMapper packageMapper;
     	@Resource
     private GoodsMapper goodsMapper;
+    	@Resource
+    private ConsumablesMapper consumablesMapper;
     	@Resource
     private UserMapper userMapper;
     
@@ -120,7 +126,7 @@ public class PackageController {
 		order=false;
 	}
     
-    public void reorder_goodsnum(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void reorder_goods_num(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//从HttpRequest解析用户信息，从中得到用户ID
     		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
 		records.clear();
@@ -136,7 +142,7 @@ public class PackageController {
 		
 		classify();
 		
-		message="按物品类型排序";
+		message="按物品数量排序";
 		order=false;
 	}
     
@@ -145,6 +151,7 @@ public class PackageController {
         	ModelAndView mav = new ModelAndView("package");
         	mav.addObject("message",message);
         	mav.addObject("records",records.toString());
+        	mav.addObject("list",records);
         	mav.addObject("goods",goods.toString());    	
         return mav;
     }
@@ -157,7 +164,7 @@ public class PackageController {
     		}
     	else
     		{
-    			reorder_goodsID(request,response);
+    			reorder_goods_num(request,response);
     		}
         	return show(request,response);	
     }
@@ -235,9 +242,32 @@ public class PackageController {
 				}
 				break;
 			}
-			case "tiyan":
+			case "xiaohao":
 			{
 				//添加体验卡记录
+				Consumables consumable=new Consumables();
+				Timestamp currentTime=new Timestamp(System.currentTimeMillis());
+				Calendar currCalendar = Calendar.getInstance();
+				currCalendar.setTime(currentTime);
+				currCalendar.add(Calendar.DAY_OF_MONTH, good.getGoodsAttr());//设置可使用期限
+				currentTime=new Timestamp(currCalendar.getTimeInMillis());
+				
+				consumable.setGoodsId(good.getId());
+				consumable.setUserId(0);//user.getID()
+				consumable.setLiveTime(currentTime);
+				
+				consumablesMapper.insert_AI(consumable);
+				
+				//更新package中记录
+				record.setGoodsNum(record.getGoodsNum()-1);
+				if(record.getGoodsNum()==0)
+				{
+					packageMapper.deleteByPrimaryKey(record.getPackageId());
+				}
+				else
+				{
+					packageMapper.updateByPrimaryKey(record);
+				}
 				break;
 			}
 			default:

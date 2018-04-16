@@ -59,6 +59,7 @@ public class ChatController {
     	ModelAndView mav = new ModelAndView("chat");
     	mav.addObject("world_records",world_records.toString());
     	mav.addObject("friend_records",friend_records.toString());
+    	mav.addObject("friends",friends_ID.toString());
     	mav.addObject("list",world_records);
     return mav;
 }

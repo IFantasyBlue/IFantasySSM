@@ -12,5 +12,16 @@
 <strong>${message}</strong><br/><br/>
 ${ goods }<br/><br/>
 ${ records }<br/><br/>
+<c:forEach items="${list}" var="record" varStatus="vs">  
+            <tr>  
+                 <td align = "center">${record.packageId}</td>  
+                 <td align = "center">${record.userId}</td>  
+                 <td align = "center">${record.goodsId}</td>  
+                 <td align = "center">${record.goodsNum}</td>  
+          <br/>
+             </tr>  
+    </c:forEach>  
 </body>
+<a href="package/reOrder">重新排序</a>
+<a href="package/apply">使用goods_id=1</a>
 </html>

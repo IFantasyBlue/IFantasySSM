@@ -127,6 +127,14 @@
     order by goods_ID ASC
   </select>
   
+    <select id="selectByUserID_orderbygoods_num" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from package
+    where user_ID = #{userID,jdbcType=INTEGER}
+    order by goods_num DESC
+  </select>
+  
   <insert id="insert_autoIncrement" parameterType="com.cn.ssm.entity.Package"  useGeneratedKeys="true"  keyProperty="package_ID">
     insert into package (goods_ID, user_ID)
     values (#{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})

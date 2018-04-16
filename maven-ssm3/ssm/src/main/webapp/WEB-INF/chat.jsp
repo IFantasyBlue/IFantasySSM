@@ -10,6 +10,7 @@
 <body>
 	<h1>聊天</h1>
 	${ world_records }<br/><hr><br/>
+	${ friends }<br/><hr><br/>
 	${ friend_records }<br/><hr><br/>
      <c:forEach items="${list}" var="chat" varStatus="vs">  
             <tr>  
