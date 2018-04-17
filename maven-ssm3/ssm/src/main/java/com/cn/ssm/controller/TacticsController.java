@@ -10,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cn.ssm.entity.DTactics;
+import com.cn.ssm.entity.Lineup;
 import com.cn.ssm.entity.OTactics;
 import com.cn.ssm.entity.User;
 import com.cn.ssm.service.IDTacticsService;
+import com.cn.ssm.service.ILineupService;
 import com.cn.ssm.service.IOTacticsService;
 import com.cn.ssm.service.IUserService;
 import com.cn.ssm.vo.TacticsVO;
@@ -30,6 +32,8 @@ public class TacticsController {
     private IDTacticsService dTacticsService;
 	@Resource
     private IUserService userService;
+	@Resource
+    private ILineupService lineupService;
 	
 	/*
 	 * 处理最开始的战术按钮响应
@@ -99,8 +103,37 @@ public class TacticsController {
     @RequestMapping("otacticsEquipped")
     public String toOTacticsEquipped(HttpServletRequest request,Model model){
 
+    	int user_Id = Integer.parseInt(request.getParameter("user_id"));
     	int otactics_Id = Integer.parseInt(request.getParameter("otactics_id"));
+    	
+    	int sword = 0;
+    	User user = userService.getById(user_Id);
+    	Lineup lineup = lineupService.getById(user_Id);
+    	TacticsMethods tacticsMethods = new TacticsMethods();
+ 
+    	switch(otactics_Id){
+    		case 1:
+    			sword = (int)tacticsMethods.OTacticsNo1(lineup.getSf(), lineup.getPg(), lineup.getSg());
+    			break;
+    		case 2:
+    			sword = (int)tacticsMethods.OTacticsNo2(lineup.getPf(), lineup.getSf(), lineup.getSg());
+    			break;
+    		case 3:
+    			sword = (int)tacticsMethods.OTacticsNo3(lineup.getSf(), lineup.getPf(), lineup.getPg());
+    			break;
+    		case 4:
+    			sword = (int)tacticsMethods.OTacticsNo4(lineup.getPf(), lineup.getC());
+    			break;
+    		case 5:
+    			sword = (int)tacticsMethods.OTacticsNo5(lineup.getPf(), lineup.getC(), lineup.getPg());
+    			break;
+    		case 6:
+    			sword = (int)tacticsMethods.OTacticsNo6(lineup.getC(), lineup.getPg(), lineup.getSg());
+    			break;
+    	}
         
+    	user.setPower(user.getPower() + sword);
+    	
         //JSONArray json = JSONArray.fromObject(dTactics);
         
         return "equippedOtactics";
