@@ -44,6 +44,9 @@ public class TeamController {
     @Resource
     private IPlayers_statsService iPlayers_statsService;
     
+    /*显示用户球队的信息
+     * 包括首发球员与替补球员，球队战斗力等信息
+     */
     @RequestMapping("teamShow")
     public String toIndex(HttpServletRequest request,Model model){
         int userId = Integer.parseInt(request.getParameter("user_id"));
@@ -67,6 +70,9 @@ public class TeamController {
         
         return "showUser";
     }
+    /*按照位置显示球队成员
+     * 按照位置是C（中锋）
+     */
     @RequestMapping("teamShowC")
     public String toTeamC(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -90,6 +96,9 @@ public class TeamController {
         
         return "showUser";
     }
+    /*按照位置显示球队成员
+     * 按照位置是PF（大前锋）
+     */
     @RequestMapping("teamShowPF")
     public String toTeamPF(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -113,6 +122,9 @@ public class TeamController {
         
         return "showUser";
     }
+    /*按照位置显示球队成员
+     * 按照位置是PG（控球后卫）
+     */
     @RequestMapping("teamShowPG")
     public String toTeamPG(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -136,6 +148,9 @@ public class TeamController {
         
         return "showUser";
     }
+    /*按照位置显示球队成员
+     * 按照位置是SG（得分后卫）
+     */
     @RequestMapping("teamShowSG")
     public String toTeamSG(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -159,6 +174,9 @@ public class TeamController {
         
         return "showUser";
     }
+    /*按照位置显示球队成员
+     * 按照位置是SF（小前锋）
+     */
     @RequestMapping("teamShowSF")
     public String toTeamSF(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -183,7 +201,9 @@ public class TeamController {
         return "showUser";
     }
     
-    
+    /*给出指定球员ID显示球员的基本信息
+     * 根据球员id到数据库查询球员信息
+     */
     @RequestMapping("playerShow")
     public String toPlayer(HttpServletRequest request,Model model){
         int player_id = Integer.parseInt(request.getParameter("player_id"));
@@ -210,7 +230,9 @@ public class TeamController {
     }
     
     
-    
+    /*给出指定球员ID显示球员的数据信息
+     * 根据球员id到数据库球员数据表查询
+     */
     @RequestMapping("playerStatsShow")
     public String showPlayerStats(HttpServletRequest request,Model model){
         int player_id = Integer.parseInt(request.getParameter("player_id"));
@@ -222,6 +244,9 @@ public class TeamController {
         return "showPlayerStats";
     }
     
+    /*球员上场
+     * 根据要上场的球员id先判断该球员是否已为首发，是就返回错误信息，否则完成替换以及战斗力变化等操作
+     */
     @RequestMapping("playerIn")
     public String playerIn(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -314,9 +339,10 @@ public class TeamController {
         }
         
         //JSONObject json = JSONObject.fromObject(lineup);
-        
-        
-    }
+        }
+    /*替换球员
+     * 如果球员本位置与替换位置不符则战斗力会有减损（战力减损为原来的50%）
+     */
     @RequestMapping("replacePlayer")
     public String repalcePlayer(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -415,7 +441,7 @@ public class TeamController {
         		
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
-        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
         		userService.updateByKey(user);
@@ -431,7 +457,7 @@ public class TeamController {
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
-        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
         		userService.updateByKey(user);
@@ -446,7 +472,7 @@ public class TeamController {
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
-        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
         		userService.updateByKey(user);
@@ -461,7 +487,7 @@ public class TeamController {
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
-        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
         		userService.updateByKey(user);
@@ -476,7 +502,7 @@ public class TeamController {
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
-        		int player_power=(int) Math.floor((100*player_ev/27.9));
+        		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
         		userService.updateByKey(user);
@@ -528,10 +554,11 @@ public class TeamController {
         	teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         	return mesg;
         }*/
-        
-        
-        
+
     }
+    /*解雇球员
+     * 若球员在首发位置上则显示错误信息不能解雇，否则从用户球队中删除该球员并返回该球员的80%薪资回用户资金。
+     */
     @RequestMapping("playerFire")
     public String playerFire(HttpServletRequest request,Model model){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -547,7 +574,7 @@ public class TeamController {
         User_Info user_Info = user_InfoService.getById(user.getUserinfo());
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         belongTeam.setPlayersNum(belongTeam.getPlayersNum()-1);
-        user.setMoney(user.getMoney()+player.getSalary());
+        user.setMoney(user.getMoney()+(int)Math.floor(player.getSalary()*0.8));
         teamMembersService.delTeamMembers(user_id, player_id);
         belongTeamService.updateBelongTeam(belongTeam);
         userService.updateUserByMoney(user);

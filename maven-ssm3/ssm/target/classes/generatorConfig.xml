@@ -3,7 +3,8 @@
       PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
       "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
     <generatorConfiguration>  
-        <context id="test" targetRuntime="MyBatis3">  
+        <context id="test" targetRuntime="MyBatis3">
+        
             <!-- 一些工具 -->  
             <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>  
             <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>  
@@ -52,12 +53,20 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                 <!-- <table tableName="belongTeam" domainObjectName="BelongTeam"  
+                <!--  <table tableName="belongTeam" domainObjectName="BelongTeam"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>    -->
+               <!--  <table tableName="records" domainObjectName="Records"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                <!-- <table tableName="chat" domainObjectName="Chat"  
+                 <!-- <table tableName="notice" domainObjectName="Notice"  
+                enableCountByExample="false" enableUpdateByExample="false"  
+                enableDeleteByExample="false" enableSelectByExample="false"  
+                selectByExampleQueryId="false"></table>  
+ -->                <!-- <table tableName="chat" domainObjectName="Chat"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>  
@@ -107,10 +116,10 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
                 
-                 <table tableName="user" domainObjectName="User"  
+                <table tableName="user" domainObjectName="User"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> 
+                selectByExampleQueryId="false"></table>
                 <!--
                 <table tableName="user_Info" domainObjectName="User_Info"  
                 enableCountByExample="false" enableUpdateByExample="false"  
