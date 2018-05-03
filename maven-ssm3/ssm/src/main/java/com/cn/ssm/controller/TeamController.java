@@ -1,11 +1,27 @@
 package com.cn.ssm.controller;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.json.JsonArray;
+import javax.json.JsonNumber;
+import javax.json.JsonObject;
+import javax.json.JsonString;
+import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.processors.JsonValueProcessor;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +36,9 @@ import com.cn.ssm.service.IPlayers_statsService;
 import com.cn.ssm.service.ITeamMembersService;
 import com.cn.ssm.service.IUserService;
 import com.cn.ssm.service.IUser_InfoService;
+import com.cn.ssm.utils.JsonDateValueProcessor;
+import com.cn.ssm.vo.MembersVO;
+import com.cn.ssm.vo.MessageVO;
 import com.cn.ssm.vo.PlayerVO;
 import com.cn.ssm.vo.TeamVO;
 
@@ -47,34 +66,57 @@ public class TeamController {
     /*显示用户球队的信息
      * 包括首发球员与替补球员，球队战斗力等信息
      */
-    @RequestMapping("teamShow")
-    public String toIndex(HttpServletRequest request,Model model){
+    @RequestMapping("/teamShow.json")
+    public void toIndex(HttpServletRequest request,HttpServletResponse response, Model model){
         int userId = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(userId);
 
+        
         User_Info user_Info = user_InfoService.getById(user.getUserinfo());
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         Lineup lineup=lineupService.getById(belongTeam.getLineup());
         List<TeamMembers> list=teamMembersService.getById(user_Info.getUserId());
+        List<MembersVO> list2 = new ArrayList<MembersVO>();
+        for(int i=0;i<list.size();i++){
+        	Players players = new Players();
+        	players = playersService.getById(list.get(i).getPlayerId());
+        	MembersVO membersVO = new MembersVO();
+        	membersVO.setTeamMembers(list.get(i));
+        	membersVO.setName(players.getName());
+        	list2.add(membersVO);
+        }
         TeamVO teamVo=new TeamVO();
         teamVo.setMoney(user.getMoney());
         teamVo.setPower(user.getPower());
-        teamVo.setList(list);
-     model.addAttribute("user", user);
-    model.addAttribute("user_info", user_Info);
-  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
-   model.addAttribute("list", list);
-   
+        teamVo.setList(list2);
+        JSONObject json = JSONObject.fromObject(teamVo);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+//     model.addAttribute("user", user);
+//    model.addAttribute("user_info", user_Info);
+//  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+//   model.addAttribute("list", list);
+//   
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
-        return "showUser";
+        
     }
     /*按照位置显示球队成员
      * 按照位置是C（中锋）
      */
-    @RequestMapping("teamShowC")
-    public String toTeamC(HttpServletRequest request,Model model){
+    @RequestMapping("/teamShowC.json")
+    public void toTeamC(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(user_id);
@@ -83,24 +125,46 @@ public class TeamController {
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         Lineup lineup=lineupService.getById(belongTeam.getLineup());
         List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "C");
+        List<MembersVO> list2 = new ArrayList<MembersVO>();
+        for(int i=0;i<list.size();i++){
+        	Players players = new Players();
+        	players = playersService.getById(list.get(i).getPlayerId());
+        	MembersVO membersVO = new MembersVO();
+        	membersVO.setTeamMembers(list.get(i));
+        	membersVO.setName(players.getName());
+        	list2.add(membersVO);
+        }
         TeamVO teamVo=new TeamVO();
         teamVo.setMoney(user.getMoney());
         teamVo.setPower(user.getPower());
-        teamVo.setList(list);
-     model.addAttribute("user", user);
-    model.addAttribute("user_info", user_Info);
-  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
-   model.addAttribute("list", list);
+        teamVo.setList(list2);
+        JSONObject json = JSONObject.fromObject(teamVo);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+//     model.addAttribute("user", user);
+//    model.addAttribute("user_info", user_Info);
+//  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+//   model.addAttribute("list", list);
    
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
-        return "showUser";
+        
     }
     /*按照位置显示球队成员
      * 按照位置是PF（大前锋）
      */
-    @RequestMapping("teamShowPF")
-    public String toTeamPF(HttpServletRequest request,Model model){
+    @RequestMapping("/teamShowPF.json")
+    public void toTeamPF(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(user_id);
@@ -109,24 +173,46 @@ public class TeamController {
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         Lineup lineup=lineupService.getById(belongTeam.getLineup());
         List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "PF");
+        List<MembersVO> list2 = new ArrayList<MembersVO>();
+        for(int i=0;i<list.size();i++){
+        	Players players = new Players();
+        	players = playersService.getById(list.get(i).getPlayerId());
+        	MembersVO membersVO = new MembersVO();
+        	membersVO.setTeamMembers(list.get(i));
+        	membersVO.setName(players.getName());
+        	list2.add(membersVO);
+        }
         TeamVO teamVo=new TeamVO();
         teamVo.setMoney(user.getMoney());
         teamVo.setPower(user.getPower());
-        teamVo.setList(list);
-     model.addAttribute("user", user);
-    model.addAttribute("user_info", user_Info);
-  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
-   model.addAttribute("list", list);
+        teamVo.setList(list2);
+        JSONObject json = JSONObject.fromObject(teamVo);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+//     model.addAttribute("user", user);
+//    model.addAttribute("user_info", user_Info);
+//  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+//   model.addAttribute("list", list);
    
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
-        return "showUser";
+        
     }
     /*按照位置显示球队成员
      * 按照位置是PG（控球后卫）
      */
-    @RequestMapping("teamShowPG")
-    public String toTeamPG(HttpServletRequest request,Model model){
+    @RequestMapping("/teamShowPG.json")
+    public void toTeamPG(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(user_id);
@@ -135,24 +221,46 @@ public class TeamController {
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         Lineup lineup=lineupService.getById(belongTeam.getLineup());
         List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "PG");
+        List<MembersVO> list2 = new ArrayList<MembersVO>();
+        for(int i=0;i<list.size();i++){
+        	Players players = new Players();
+        	players = playersService.getById(list.get(i).getPlayerId());
+        	MembersVO membersVO = new MembersVO();
+        	membersVO.setTeamMembers(list.get(i));
+        	membersVO.setName(players.getName());
+        	list2.add(membersVO);
+        }
         TeamVO teamVo=new TeamVO();
         teamVo.setMoney(user.getMoney());
         teamVo.setPower(user.getPower());
-        teamVo.setList(list);
-     model.addAttribute("user", user);
-    model.addAttribute("user_info", user_Info);
-  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
-   model.addAttribute("list", list);
+        teamVo.setList(list2);
+        JSONObject json = JSONObject.fromObject(teamVo);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+//     model.addAttribute("user", user);
+//    model.addAttribute("user_info", user_Info);
+//  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+//   model.addAttribute("list", list);
    
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
-        return "showUser";
+        
     }
     /*按照位置显示球队成员
      * 按照位置是SG（得分后卫）
      */
-    @RequestMapping("teamShowSG")
-    public String toTeamSG(HttpServletRequest request,Model model){
+    @RequestMapping("/teamShowSG.json")
+    public void toTeamSG(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(user_id);
@@ -161,24 +269,46 @@ public class TeamController {
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         Lineup lineup=lineupService.getById(belongTeam.getLineup());
         List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "SG");
+        List<MembersVO> list2 = new ArrayList<MembersVO>();
+        for(int i=0;i<list.size();i++){
+        	Players players = new Players();
+        	players = playersService.getById(list.get(i).getPlayerId());
+        	MembersVO membersVO = new MembersVO();
+        	membersVO.setTeamMembers(list.get(i));
+        	membersVO.setName(players.getName());
+        	list2.add(membersVO);
+        }
         TeamVO teamVo=new TeamVO();
         teamVo.setMoney(user.getMoney());
         teamVo.setPower(user.getPower());
-        teamVo.setList(list);
-     model.addAttribute("user", user);
-    model.addAttribute("user_info", user_Info);
-  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
-   model.addAttribute("list", list);
+        teamVo.setList(list2);
+        JSONObject json = JSONObject.fromObject(teamVo);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+//     model.addAttribute("user", user);
+//    model.addAttribute("user_info", user_Info);
+//  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+//   model.addAttribute("list", list);
    
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
-        return "showUser";
+        
     }
     /*按照位置显示球队成员
      * 按照位置是SF（小前锋）
      */
-    @RequestMapping("teamShowSF")
-    public String toTeamSF(HttpServletRequest request,Model model){
+    @RequestMapping("/teamShowSF.json")
+    public void toTeamSF(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(user_id);
@@ -187,29 +317,53 @@ public class TeamController {
         BelongTeam belongTeam=belongTeamService.getById(user_Info.getBelongteam());
         Lineup lineup=lineupService.getById(belongTeam.getLineup());
         List<TeamMembers> list=teamMembersService.selectByKey3(user_id, "SF");
+        List<MembersVO> list2 = new ArrayList<MembersVO>();
+        for(int i=0;i<list.size();i++){
+        	Players players = new Players();
+        	players = playersService.getById(list.get(i).getPlayerId());
+        	MembersVO membersVO = new MembersVO();
+        	membersVO.setTeamMembers(list.get(i));
+        	membersVO.setName(players.getName());
+        	list2.add(membersVO);
+        }
         TeamVO teamVo=new TeamVO();
         teamVo.setMoney(user.getMoney());
         teamVo.setPower(user.getPower());
-        teamVo.setList(list);
-     model.addAttribute("user", user);
-    model.addAttribute("user_info", user_Info);
-  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
-   model.addAttribute("list", list);
+        teamVo.setList(list2);
+        JSONObject json = JSONObject.fromObject(teamVo);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+//     model.addAttribute("user", user);
+//    model.addAttribute("user_info", user_Info);
+//  model.addAttribute("belongteam", belongTeam);       model.addAttribute("lineup", lineup);
+//   model.addAttribute("list", list);
    
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
-        return "showUser";
+        
     }
     
     /*给出指定球员ID显示球员的基本信息
      * 根据球员id到数据库查询球员信息
      */
-    @RequestMapping("playerShow")
-    public String toPlayer(HttpServletRequest request,Model model){
+    @RequestMapping("/playerShow.json")
+    public void toPlayer(HttpServletRequest request,HttpServletResponse response,Model model){
         int player_id = Integer.parseInt(request.getParameter("player_id"));
-        
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.registerJsonValueProcessor(Date.class,  new JsonDateValueProcessor());
         Players player = playersService.getById(player_id);
         PlayersInfo playersInfo = playersInfoService.getById(player_id);
+        Players_Stats players_Stats = iPlayers_statsService.getById(player_id);
         PlayerVO playerVO = new PlayerVO();
         playerVO.setName(player.getName());
         playerVO.setNation(playersInfo.getNation());
@@ -223,25 +377,51 @@ public class TeamController {
         playerVO.setContract(player.getContract());
         playerVO.setDraft(playersInfo.getDraft());
         playerVO.setHeight(playersInfo.getHeight());
+        playerVO.setPerEv(players_Stats.getPerEv());
         playerVO.setStandTall(playersInfo.getStandTall());
-        //JSONObject json = JSONObject.fromObject(playerVO);
-        model.addAttribute("player",playerVO);
-        return "showPlayer";
+        JSONObject json = JSONObject.fromObject(playerVO,jsonConfig);
+        System.out.println("abc"+json.toString());
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+        
+        //model.addAttribute("player",playerVO);
+        
     }
     
     
     /*给出指定球员ID显示球员的数据信息
      * 根据球员id到数据库球员数据表查询
      */
-    @RequestMapping("playerStatsShow")
-    public String showPlayerStats(HttpServletRequest request,Model model){
+    @RequestMapping("playerStatsShow.json")
+    public void showPlayerStats(HttpServletRequest request,HttpServletResponse response,Model model){
         int player_id = Integer.parseInt(request.getParameter("player_id"));
 
         Players_Stats players_Stats=iPlayers_statsService.getById(player_id);
         
-        //JSONObject json = JSONObject.fromObject(players_Stats);
-        model.addAttribute("player",players_Stats);
-        return "showPlayerStats";
+        JSONObject json = JSONObject.fromObject(players_Stats);
+        System.out.println("abc"+json.toString());
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
     }
     
     /*球员上场
@@ -343,8 +523,8 @@ public class TeamController {
     /*替换球员
      * 如果球员本位置与替换位置不符则战斗力会有减损（战力减损为原来的50%）
      */
-    @RequestMapping("replacePlayer")
-    public String repalcePlayer(HttpServletRequest request,Model model){
+    @RequestMapping("/replacePlayer.json")
+    public void repalcePlayer(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
         User user = userService.getById(user_id);
         int player_in_id = Integer.parseInt(request.getParameter("player_in_id"));
@@ -356,7 +536,11 @@ public class TeamController {
         
         
         Lineup lineup=lineupService.getById(user_id);
-        String mesg="{"+"mesg"+":"+"replace player successfully."+"}";
+        MessageVO messageVO = new MessageVO();
+        if(lineup.getC()==player_in_id || lineup.getPf()==player_in_id || lineup.getPg()==player_in_id || lineup.getSf()==player_in_id || lineup.getSg()==player_in_id){
+        	messageVO.setStatus(-1);
+        	
+        }else{
         if(player_in.getPosition().equals(player_out.getPosition())){
         	
         	if(player_in.getPosition().equals("C")){
@@ -374,7 +558,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setC(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         		
         	}else if(player_in.getPosition().equals("PF")){
         		double player_ev=player_in_stats.getPerEv().doubleValue();
@@ -389,7 +573,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setPf(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}else if(player_in.getPosition().equals("PG")){
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
@@ -403,7 +587,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setPg(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}else if(player_in.getPosition().equals("SF")){
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
@@ -417,7 +601,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setSf(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}else{
         		double player_ev=player_in_stats.getPerEv().doubleValue();
         		double player2_ev=player_out_stats.getPerEv().doubleValue();
@@ -431,7 +615,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setSg(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}
         	
         }else{
@@ -451,7 +635,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setC(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         		
         	}else if(player_out.getPosition().equals("PF")){
 
@@ -467,7 +651,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setPf(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}else if(player_out.getPosition().equals("PG")){
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
@@ -482,7 +666,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setPg(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}else if(player_out.getPosition().equals("SF")){
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
@@ -497,7 +681,7 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setSf(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}else{
 
         		double player_ev=player_in_stats.getPerEv().doubleValue();
@@ -512,11 +696,24 @@ public class TeamController {
         		teamMembersService.updateTeamMembers(user_id, player_out_id, false);
         		lineup.setSg(player_in_id);
         		lineupService.updateLineup(lineup);
-        		return "playerIn";
+        		messageVO.setStatus(1);
         	}
-        	
         }
-        
+        }
+        JSONObject json = JSONObject.fromObject(messageVO);
+        System.out.println("abc"+json.toString());
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
         /*
         if(position.equals("C")){
         	lineup.setC(player_in_id);
@@ -559,15 +756,17 @@ public class TeamController {
     /*解雇球员
      * 若球员在首发位置上则显示错误信息不能解雇，否则从用户球队中删除该球员并返回该球员的80%薪资回用户资金。
      */
-    @RequestMapping("playerFire")
-    public String playerFire(HttpServletRequest request,Model model){
+    @RequestMapping("/playerFire.json")
+    public void playerFire(HttpServletRequest request,Model model,HttpServletResponse response){
         int user_id = Integer.parseInt(request.getParameter("user_id"));
         int player_id = Integer.parseInt(request.getParameter("player_id"));
-        String error="{"+"mesg"+":"+"can't fire a played player."+"}";
+        System.out.println(player_id+""+user_id);
+        MessageVO messageVO = new MessageVO();
         Lineup lineup=lineupService.getById(user_id);
         if(lineup.getC()==player_id || lineup.getPf()==player_id || lineup.getPg()==player_id || lineup.getSf()==player_id || lineup.getSg()==player_id){
-        	return error;
-        }
+        	messageVO.setStatus(-1);
+        	messageVO.setMesg("can't fire a played player!");
+        }else{
         User user = userService.getById(user_id);
 
         Players player=playersService.getById(player_id);
@@ -578,8 +777,62 @@ public class TeamController {
         teamMembersService.delTeamMembers(user_id, player_id);
         belongTeamService.updateBelongTeam(belongTeam);
         userService.updateUserByMoney(user);
-        String mesg="{"+"mesg"+":"+"fire player successfully."+"}";
+        messageVO.setStatus(1);
+    	messageVO.setMesg("fire successfully!");
+        }
+    	JSONObject json = JSONObject.fromObject(messageVO);
+        System.out.println("abc"+json.toString());
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
         
-        return "playerIn";
+    }
+    @RequestMapping("/findPlayer.json")
+    public void findPlayer(HttpServletRequest request,Model model,HttpServletResponse response){
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        String position = request.getParameter("position");
+        
+        Players players = new Players();
+        Lineup lineup=lineupService.getById(user_id);
+        
+        User user = userService.getById(user_id);
+        if(position.equals("C")){
+        	players = playersService.getById(lineup.getC());
+        }else if(position.equals("PF")){
+        	players = playersService.getById(lineup.getPf());
+        }else if(position.equals("SF")){
+        	players = playersService.getById(lineup.getSf());
+        }else if(position.equals("SG")){
+        	players = playersService.getById(lineup.getSg());
+        }else{
+        	players = playersService.getById(lineup.getPg());
+        }
+        
+        
+        
+    	JSONObject json = JSONObject.fromObject(players);
+        System.out.println("abc"+json.toString());
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+        
     }
 }

@@ -1,11 +1,17 @@
 package com.cn.ssm.controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.json.JsonArray;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +42,8 @@ import com.cn.ssm.service.IUserService;
 import com.cn.ssm.service.IUser_InfoService;
 import com.cn.ssm.service.IVIPService;
 import com.cn.ssm.service.VIPServiceImpl;
+import com.cn.ssm.vo.MatchingMesgVO;
+import com.cn.ssm.vo.MessageVO;
 import com.cn.ssm.vo.TeamVO;
 
 @Controller
@@ -71,8 +79,8 @@ public class MatchingController {
     /*进入匹配状态
      * 用户点击在线匹配，便把用户信息加入匹配表并进入循环每隔一秒查询匹配表有无其他段位合适的用户进来
      */
-    @RequestMapping("matchingIn")
-    public String matchingIn(HttpServletRequest request,Model model) throws InterruptedException{
+    @RequestMapping("/matchingIn.json")
+    public void matchingIn(HttpServletRequest request,Model model,HttpServletResponse response) throws InterruptedException{
         int user_id = Integer.parseInt(request.getParameter("user_id"));
 
         User user = userService.getById(user_id);
@@ -84,33 +92,98 @@ public class MatchingController {
         m.setLevel(user_Info.getLevel());
         m.setUserId(user_id);
         iMatchingService.insert(m);
-        while(true){
-        List<matching> list = iMatchingService.getMatching(user_Info.getLevel());
-        for(int i=0;i<list.size();i++){
-        	if(list.get(i).getUserId() == user_id){
-        		continue;
-        	}else{
-        		Thread.sleep(1000);
-        		iMatchingService.delete(list.get(i).getId());
-        		iMatchingService.delete(user_id);
-        		User user2 = userService.getById(list.get(i).getUserId());
-        		//将用户状态设置为1(1是对战中，0是离线，2为空闲）
-        		user.setLoginstatus(1);
-        		user2.setLoginstatus(1);
-        		userService.updateByKey(user);
-        		userService.updateByKey(user2);
-        		List<User> list1=new ArrayList<User>();
-            	list1.add(user);
-            	list1.add(userService.getById(list.get(i).getUserId()));
-            	model.addAttribute("user_id", user_id);
-            	model.addAttribute("user2_id", list.get(i).getUserId());
-            	model.addAttribute("list", list1);
-            	model.addAttribute("info", "匹配成功！");
-            	return "matchingIn";
-        	}
-        }
+        
+        JSONObject json = JSONObject.fromObject(user);
+        response.setContentType("application/json");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+        
+        	
+        
         }
    
+        @RequestMapping("/matchingIn2.json")
+        public void matchingIn2(HttpServletRequest request,Model model,HttpServletResponse response) throws InterruptedException{
+            
+        	 int user_id = Integer.parseInt(request.getParameter("user_id"));
+
+             User user = userService.getById(user_id);
+
+             User_Info user_Info = user_InfoService.getById(user.getUserinfo());
+            List<matching> list = iMatchingService.getMatching(user_Info.getLevel());
+            int j = 0;
+            MatchingMesgVO matchingMesgVO = new MatchingMesgVO();
+            for(int i=0;i<list.size();i++){
+            	if(list.get(i).getUserId() == user_id){
+            		
+            		continue;
+            	}else{
+            		Thread.sleep(1000);
+            		iMatchingService.delete(list.get(i).getId());
+            		iMatchingService.delete(user_id);
+            		User user2 = userService.getById(list.get(i).getUserId());
+            		//将用户状态设置为1(1是对战中，0是离线，2为空闲）
+            		user.setLoginstatus(1);
+            		user2.setLoginstatus(1);
+            		userService.updateByKey(user);
+            		userService.updateByKey(user2);
+            		List<User> list1=new ArrayList<User>();
+                	list1.add(user);
+                	list1.add(userService.getById(list.get(i).getUserId()));
+//                	model.addAttribute("user_id", user_id);
+//                	model.addAttribute("user2_id", list.get(i).getUserId());
+//                	model.addAttribute("list", list1);
+//                	model.addAttribute("info", "匹配成功！");
+                	 matchingMesgVO.setSecond(++j);
+             		matchingMesgVO.setStatus(1);
+             		matchingMesgVO.setMesg("matching...");
+            		JSONObject json = new JSONObject();
+            		json.put("user1", user);
+            		json.put("user2", user2);
+            		json.put("status", 1);
+                    response.setContentType("application/json");
+                    PrintWriter out = null;
+            		try {
+            			out = response.getWriter();
+            			out.write(json.toString());
+            		} catch (Exception e) {
+            			// TODO Auto-generated catch block
+            			e.printStackTrace();
+            		}finally{
+            			out.flush();
+                        out.close();
+            		}
+            	}
+            }
+            matchingMesgVO.setSecond(++j);
+    		matchingMesgVO.setStatus(0);
+    		matchingMesgVO.setMesg("matching...");
+    		JSONObject json = JSONObject.fromObject(matchingMesgVO);
+            response.setContentType("application/json");
+            PrintWriter out = null;
+    		try {
+    			out = response.getWriter();
+    			out.write(json.toString());
+    			
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}finally{
+    			out.flush();
+                out.close();
+    		}
+            
+        
 //        JSONObject json = JSONObject.fromObject(teamVo);
         
         
@@ -179,7 +252,7 @@ public class MatchingController {
      * 根据两用户的战斗力与vip等级计算胜负概率并按照概率判定一方获胜。（A：Ap/(Ap+Bp)+AVIP-BVIP,B:Bp/(Ap+Bp)+BVIP-AVIP)
      */
     @RequestMapping("FinghtingResult")
-    public String FinghtingResult(HttpServletRequest request,Model model){ 
+    public void FinghtingResult(HttpServletRequest request,Model model,HttpServletResponse response){ 
     	int user_id = Integer.parseInt(request.getParameter("user_id"));
     	int user2_id = Integer.parseInt(request.getParameter("user2_id"));
     	User user = userService.getById(user_id);
@@ -266,26 +339,92 @@ public class MatchingController {
 				records3.setResult("win");
 				iRecordsService.insert(records3);
 				records = iRecordsService.getRecordsById2(user_id);
+				int money = user_Info.getLevel()*100000;
+				user.setMoney(user.getMoney() + money);
+				userService.updateByKey(user);
+				user_Info.setLevel(user_Info.getLevel() + 1);
+				if(user2_Info.getLevel() == 0){
+					
+				}else{
+					user2_Info.setLevel(user2_Info.getLevel() - 1);
+				}
+				user_InfoService.update(user_Info);
+				user_InfoService.update(user2_Info);
+				MessageVO messageVO = new MessageVO();
+				messageVO.setMesg("win");
+				messageVO.setStatus(1);
+				JSONObject json = JSONObject.fromObject(messageVO);
+				json.put("money", money);
+		        response.setContentType("application/json");
+		        PrintWriter out = null;
+				try {
+					out = response.getWriter();
+					out.write(json.toString());
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					out.flush();
+		            out.close();
+				}
+//				model.addAttribute("user_id", user_id);
+//				model.addAttribute("user2_id", user2_id);
+//				model.addAttribute("list", list);
+//				model.addAttribute("info", "you win!");
 				
-				model.addAttribute("user_id", user_id);
-				model.addAttribute("user2_id", user2_id);
-				model.addAttribute("list", list);
-				model.addAttribute("info", "you win!");
 			}else{
 				if(records2.getResult().equals("win")){
+					MessageVO messageVO = new MessageVO();
+					messageVO.setMesg("lose");
+					messageVO.setStatus(1);
 					
-					model.addAttribute("user_id", user_id);
-					model.addAttribute("user2_id", user2_id);
-					model.addAttribute("list", list);
-					model.addAttribute("info", "you lose!");
+					
+					
+					
+					JSONObject json = JSONObject.fromObject(messageVO);
+					
+			        response.setContentType("application/json");
+			        PrintWriter out = null;
+					try {
+						out = response.getWriter();
+						out.write(json.toString());
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally{
+						out.flush();
+			            out.close();
+					}
+//					model.addAttribute("user_id", user_id);
+//					model.addAttribute("user2_id", user2_id);
+//					model.addAttribute("list", list);
+//					model.addAttribute("info", "you lose!");
 					iRecordsService.delete(records2);
 					
 				}else{
-					
-					model.addAttribute("user_id", user_id);
-					model.addAttribute("user2_id", user2_id);
-					model.addAttribute("list", list);
-					model.addAttribute("info", "you win!");
+					MessageVO messageVO = new MessageVO();
+					messageVO.setMesg("win");
+					messageVO.setStatus(1);
+					JSONObject json = JSONObject.fromObject(messageVO);
+			        response.setContentType("application/json");
+			        PrintWriter out = null;
+					try {
+						out = response.getWriter();
+						out.write(json.toString());
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally{
+						out.flush();
+			            out.close();
+					}
+//					model.addAttribute("user_id", user_id);
+//					model.addAttribute("user2_id", user2_id);
+//					model.addAttribute("list", list);
+//					model.addAttribute("info", "you win!");
 					iRecordsService.delete(records2);
 					
 				}
@@ -303,26 +442,89 @@ public class MatchingController {
 				records3.setResult("lose");
 				iRecordsService.insert(records3);
 				records = iRecordsService.getRecordsById2(user_id);
+				int money = user2_Info.getLevel()*100000;
+				user2.setMoney(user2.getMoney() + money);
+				userService.updateByKey(user2);
+				user2_Info.setLevel(user2_Info.getLevel() + 1);
+				if(user_Info.getLevel() == 0){
+					
+				}else{
+					user_Info.setLevel(user_Info.getLevel() - 1);
+				}
+				user_InfoService.update(user_Info);
+				user_InfoService.update(user2_Info);
+				MessageVO messageVO = new MessageVO();
+				messageVO.setMesg("lose");
+				messageVO.setStatus(1);
 				
-				model.addAttribute("user_id", user_id);
-				model.addAttribute("user2_id", user2_id);
-				model.addAttribute("list", list);
-				model.addAttribute("info", "you lose!");
+				JSONObject json = JSONObject.fromObject(messageVO);
+				json.put("money", money);
+		        response.setContentType("application/json");
+		        PrintWriter out = null;
+				try {
+					out = response.getWriter();
+					out.write(json.toString());
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					out.flush();
+		            out.close();
+				}
+//				model.addAttribute("user_id", user_id);
+//				model.addAttribute("user2_id", user2_id);
+//				model.addAttribute("list", list);
+//				model.addAttribute("info", "you lose!");
 			}else{
 				if(records2.getResult().equals("win")){
 					
-					model.addAttribute("user_id", user_id);
-					model.addAttribute("user2_id", user2_id);
-					model.addAttribute("list", list);
-					model.addAttribute("info", "you lose!");
+//					model.addAttribute("user_id", user_id);
+//					model.addAttribute("user2_id", user2_id);
+//					model.addAttribute("list", list);
+//					model.addAttribute("info", "you lose!");
+					MessageVO messageVO = new MessageVO();
+					messageVO.setMesg("lose");
+					messageVO.setStatus(1);
+					JSONObject json = JSONObject.fromObject(messageVO);
+			        response.setContentType("application/json");
+			        PrintWriter out = null;
+					try {
+						out = response.getWriter();
+						out.write(json.toString());
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally{
+						out.flush();
+			            out.close();
+					}
 					iRecordsService.delete(records2);
 					
 				}else{
 					
-					model.addAttribute("user_id", user_id);
-					model.addAttribute("user2_id", user2_id);
-					model.addAttribute("list", list);
-					model.addAttribute("info", "you win!");
+//					model.addAttribute("user_id", user_id);
+//					model.addAttribute("user2_id", user2_id);
+//					model.addAttribute("list", list);
+//					model.addAttribute("info", "you win!");
+					MessageVO messageVO = new MessageVO();
+					messageVO.setMesg("win");
+					messageVO.setStatus(1);
+					JSONObject json = JSONObject.fromObject(messageVO);
+			        response.setContentType("application/json");
+			        PrintWriter out = null;
+					try {
+						out = response.getWriter();
+						out.write(json.toString());
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally{
+						out.flush();
+			            out.close();
+					}
 					iRecordsService.delete(records2);
 					
 				}
@@ -332,7 +534,7 @@ public class MatchingController {
 		user2.setLoginstatus(2);
 		userService.updateByKey(user);
 		userService.updateByKey(user2);
-		return "FinghtingResult";
+		
     }
     /*进入好友邀请界面
      * 列出该用户的所有好友

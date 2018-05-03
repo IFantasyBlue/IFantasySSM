@@ -20,5 +20,9 @@ public class User_InfoServiceImpl implements IUser_InfoService {
 		// TODO Auto-generated method stub
 		return user_InfoMapper.selectByPrimaryKey(id);
 	}
+	public int update(User_Info user_Info) {
+		// TODO Auto-generated method stub
+		return user_InfoMapper.updateByPrimaryKeySelective(user_Info);
+	}
 
 }
