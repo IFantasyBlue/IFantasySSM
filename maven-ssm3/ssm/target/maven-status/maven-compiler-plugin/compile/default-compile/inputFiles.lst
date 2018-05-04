@@ -2,6 +2,8 @@
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/dao/BelongTeamMapper.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/entity/Friends.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/entity/Chat.java
+/home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/controller/TacticsMethods.java
+/home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/service/IPlayerStatService.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/entity/Players_Stats.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/dao/ChatMapper.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/service/IUser_InfoService.java
@@ -31,6 +33,7 @@
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/dao/LineupMapper.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/service/IBelongTeamService.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/service/ITeamMembersService.java
+/home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/service/PlayerStatServiceImpl.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/service/PlayersServiceImpl.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/dao/ActivityMapper.java
 /home/xd/下载/IFantasySSM-master/maven-ssm3/ssm/src/main/java/com/cn/ssm/vo/TeamVO.java
