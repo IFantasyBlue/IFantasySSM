@@ -1,5 +1,6 @@
 package com.cn.ssm.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,11 +58,11 @@ public interface PackageMapper {
     //自定义方法
     
     //xml配置方式
-    public List<Package> selectByUserID(int userID);
+    public ArrayList<Package> selectByUserID(int userID);
     //按物品种类排序
-    public List<Package> selectByUserID_orderbygoods_ID(int userID);
+    public ArrayList<Package> selectByUserID_orderbygoods_ID(int userID);
     //按物品数量排序
-    public List<Package> selectByUserID_orderbygoods_num(int userID);
+    public ArrayList<Package> selectByUserID_orderbygoods_num(int userID);
     //查询用户名下仓库中是否存在该类物品
     Package selectByUserID_goodsid(int userID,int goodsid);
     //按主键自增方式插入记录

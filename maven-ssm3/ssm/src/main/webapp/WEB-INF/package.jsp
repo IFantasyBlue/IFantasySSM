@@ -22,6 +22,6 @@ ${ records }<br/><br/>
              </tr>  
     </c:forEach>  
 </body>
-<a href="package/reOrder">重新排序</a>
-<a href="package/apply">使用goods_id=1</a>
+<a href="reOrder">重新排序</a>
+<a href="apply">使用goods_id=1</a>
 </html>

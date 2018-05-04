@@ -48,7 +48,7 @@ public class ChatController {
     		friend_records=chatMapper.selectByReceive_ID(1);//user.getID()
     		friends_ID=friendsMapper.selectByUser_ID(1);//user.getID()
     		friends.clear();
-    		//列出好友
+    		//列出好友并以最近聊天时间降序排序
         for(int i=0;i<friends_ID.size();i++)
         	{
         		friends.add(userMapper.selectByPrimaryKey(friends_ID.get(i)));
