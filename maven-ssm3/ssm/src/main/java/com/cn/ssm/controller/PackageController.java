@@ -12,10 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cn.ssm.entity.Package;
 import com.cn.ssm.entity.User;
@@ -87,13 +89,11 @@ public class PackageController {
 		}
 	}
     
-    public void init(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		//从HttpRequest解析用户信息，从中得到用户ID
-		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
+    public void init(int id,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		records.clear();
 		goods.clear();
 		message="按获得时间顺序排序";
-		records=packageMapper.selectByUserID(0);//user.getID());
+		records=packageMapper.selectByUserID(id);
 	
 		if(records.isEmpty()==false)
 		{
@@ -105,12 +105,10 @@ public class PackageController {
 		order=true;
 	}
     
-    public void reorder_goodsID(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		//从HttpRequest解析用户信息，从中得到用户ID
-    		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
+    public void reorder_goodsID(int id,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		records.clear();
 		goods.clear();
-		records=packageMapper.selectByUserID_orderbygoods_ID(0);//user.getID());
+		records=packageMapper.selectByUserID_orderbygoods_ID(id);
 	
 		if(records.isEmpty()==false)
 		{
@@ -125,12 +123,10 @@ public class PackageController {
 		order=false;
 	}
     
-    public void reorder_goods_num(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		//从HttpRequest解析用户信息，从中得到用户ID
-    		//if(user==null) user=userService.getById(Integer.parseInt(request.getParameter("id")));
+    public void reorder_goods_num(int id,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		records.clear();
 		goods.clear();
-		records=(ArrayList<Package>) packageMapper.selectByUserID_orderbygoods_num(0);//user.getID());
+		records=(ArrayList<Package>) packageMapper.selectByUserID_orderbygoods_num(id);
 	
 		if(records.isEmpty()==false)
 		{
@@ -146,37 +142,38 @@ public class PackageController {
 	}
     
   //将当前用户package_num对应的的记录全部列出来（package.goods_num,goods）
-    private ModelAndView show(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+    private ModelAndView show(int id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
         	ModelAndView mav = new ModelAndView("package");
         	mav.addObject("message",message);
-        	mav.addObject("records",records);
+        	mav.addObject("records","consumables:"+p_consumables.toString()+"\n"+"pieces"+p_pieces.toString()+"\n"+"equipments:"+p_equipments.toString());
         	mav.addObject("list",records);
-        	mav.addObject("goods",goods);    	
+        	mav.addObject("goods",goods);  
+        	mav.addObject("id",id);
         return mav;
     }
 
     @RequestMapping(value="/index")
-	private ModelAndView package_index(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	private ModelAndView package_index(@RequestParam("user_id") int id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
     	if(order)//显示顺序
     		{
-    			init(request,response);
+    			init(id,request,response);
     		}
     	else
     		{
-    			reorder_goods_num(request,response);
+    			reorder_goods_num(id,request,response);
     		}
-        	return show(request,response);	
+        	return show(id,request,response);	
     }
     
     @RequestMapping(value="/index.json")
-	private void package_index_client(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	private void package_index_client(@RequestParam("user_id") int id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
     	if(order)//显示顺序
     		{
-    			init(request,response);
+    			init(id,request,response);
     		}
     	else
     		{
-    			reorder_goods_num(request,response);
+    			reorder_goods_num(id,request,response);
     		}
     	
     		response.setContentType("application/json");
@@ -201,13 +198,13 @@ public class PackageController {
     }
     
     @RequestMapping(value="reOrder")
-	public ModelAndView reOrder(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	public ModelAndView reOrder(@RequestParam("user_id") int id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		order=!order;
-		return new ModelAndView("redirect:/package/index");
+		return new ModelAndView("redirect:/package/index?id="+String.valueOf(id));
     }
 	
     @RequestMapping(value="reOrder.json")
-	public void reOrder_client(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	public void reOrder_client(@RequestParam("user_id") int id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		order=!order;
 		response.setContentType("package/json");
 		PrintWriter out=null;
@@ -230,20 +227,20 @@ public class PackageController {
 		}
     }
     
+    //http://localhost:8080/maven-ssm/package/pieceTogether?id=0&package_id=2
 	//前端判断，对于碎片类型的物品，数量大于等于合成所需即提供合成按钮
     	@Transactional//事务管理
 	@RequestMapping(value="pieceTogether")
-	public ModelAndView pieceTogether(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	public ModelAndView pieceTogether(@RequestParam("user_id") int id,@RequestParam("record_id") int record_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		//从前端的item获取package_id
-		int package_id=2;
+		//int package_id=2;
 		//碎片数量大于合成所需时可以进行合成
-		Package record=records.get(package_id);
-		Goods good=goods.get(package_id);
+		Package record=p_pieces.get(record_id);
+		Goods good=g_pieces.get(record_id);
 		
 		System.out.println(records.toString());
 		
 		record.setGoodsNum(record.getGoodsNum()-good.getGoodsAttr());
-		
 		
 		if(record.getGoodsNum()==0)//当碎片使用完时删除package中的记录
 			packageMapper.deleteByPrimaryKey(record.getPackageId());
@@ -251,13 +248,13 @@ public class PackageController {
 
 		good=goodsMapper.selectBygoods_name(good.getGoodsName());
 		//判断玩家仓库中是否存在此球员
-		record=packageMapper.selectByUserID_goodsid(0,good.getId());//user.getID()
+		record=packageMapper.selectByUserID_goodsid(id,good.getId());
 		if(record==null)
 		{
 			//如果玩家仓库中没有此球员，则添加新球员数据
 			Package newrecord=new Package();
 			newrecord.setGoodsId(good.getId());
-			newrecord.setUserId(0);//user.getid()
+			newrecord.setUserId(id);
 			packageMapper.insert_autoIncrement(newrecord);
 		}
 		else//更新物品信息
@@ -266,41 +263,39 @@ public class PackageController {
 			packageMapper.updateByPrimaryKey(record);
 		}
 		
-		return new ModelAndView("redirect:/package/index");
+		return new ModelAndView("redirect:/package/index?id="+String.valueOf(id));
 	}
 	
+    	//http://localhost:8080/maven-ssm/package/apply?id=0&package_id=1
 	//对于消耗品，提供使用接口
     	@Transactional
 	@RequestMapping(value="apply")
-	public ModelAndView apply(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	public ModelAndView apply(@RequestParam("user_id") int id,@RequestParam("record_id") int record_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		//从前端的item获取package_id
-		int package_id=1;
-		Package record=records.get(package_id);
-		Goods good=goods.get(package_id);
+		//int package_id=1;
+		Package record=p_consumables.get(record_id);
+		Goods good=g_consumables.get(record_id);
 		
-		switch(good.getGoodsType())
-		{
 			//使用金币卡
-			case "gold":
-			{
-				//变更用户账户金额
-				user.setMoney(user.getMoney()+good.getGoodsAttr());
-				userMapper.updateByPrimaryKey(user);
-				
-				//更新package中记录
-				record.setGoodsNum(record.getGoodsNum()-1);
-				if(record.getGoodsNum()==0)
-				{
-					packageMapper.deleteByPrimaryKey(record.getPackageId());
-				}
-				else
-				{
-					packageMapper.updateByPrimaryKey(record);
-				}
-				break;
-			}
-			case "consumable":
-			{
+//			case "gold":
+//			{
+//				//变更用户账户金额
+//				user.setMoney(user.getMoney()+good.getGoodsAttr());
+//				userMapper.updateByPrimaryKey(user);
+//				
+//				//更新package中记录
+//				record.setGoodsNum(record.getGoodsNum()-1);
+//				if(record.getGoodsNum()==0)
+//				{
+//					packageMapper.deleteByPrimaryKey(record.getPackageId());
+//				}
+//				else
+//				{
+//					packageMapper.updateByPrimaryKey(record);
+//				}
+//				break;
+//			}
+
 				//添加体验卡记录
 				Consumables consumable=new Consumables();
 				Timestamp currentTime=new Timestamp(System.currentTimeMillis());
@@ -310,7 +305,7 @@ public class PackageController {
 				currentTime=new Timestamp(currCalendar.getTimeInMillis());
 				
 				consumable.setGoodsId(good.getId());
-				consumable.setUserId(0);//user.getID()
+				consumable.setUserId(id);
 				consumable.setLiveTime(currentTime);
 				
 				consumablesMapper.insert_AI(consumable);
@@ -325,12 +320,44 @@ public class PackageController {
 				{
 					packageMapper.updateByPrimaryKey(record);
 				}
-				break;
-			}
-			default:
-				break;
-		}
-
-		return new ModelAndView("redirect:/package/index");
+				
+		return new ModelAndView("redirect:/package/index?id="+String.valueOf(id));
 	}
+
+//http://localhost:8080/maven-ssm/package/apply?id=0&package_id=1.json
+//对于消耗品，提供使用接口
+	@Transactional
+@RequestMapping(value="apply.json")
+public ModelAndView apply_json(@RequestParam("user_id") int id,@RequestParam("record_id") int record_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	//从前端的item获取package_id
+	Package record=p_consumables.get(record_id);
+	Goods good=g_consumables.get(record_id);
+	
+			Consumables consumable=new Consumables();
+			Timestamp currentTime=new Timestamp(System.currentTimeMillis());
+			Calendar currCalendar = Calendar.getInstance();
+			currCalendar.setTime(currentTime);
+			currCalendar.add(Calendar.DAY_OF_MONTH, good.getGoodsAttr());//设置可使用期限
+			currentTime=new Timestamp(currCalendar.getTimeInMillis());
+			
+			consumable.setGoodsId(good.getId());
+			consumable.setUserId(id);
+			consumable.setLiveTime(currentTime);
+			
+			consumablesMapper.insert_AI(consumable);
+			
+			//更新package中记录
+			record.setGoodsNum(record.getGoodsNum()-1);
+			if(record.getGoodsNum()==0)
+			{
+				packageMapper.deleteByPrimaryKey(record.getPackageId());
+			}
+			else
+			{
+				packageMapper.updateByPrimaryKey(record);
+			}
+			
+	return new ModelAndView("redirect:/package/index.json?id="+String.valueOf(id));
 }
+}
+
