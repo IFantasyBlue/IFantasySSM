@@ -52,5 +52,5 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
     
     //自定义方法
-   Goods selectBygoods_name(String name);
+   Goods selectBygoods_name(String name,String type);
 }

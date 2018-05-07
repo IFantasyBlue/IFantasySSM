@@ -116,4 +116,13 @@
     insert into consumables (goods_ID, user_ID,live_time)
     values (#{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{liveTime,jdbcType=TIMESTAMP})
   </insert>
+  
+   <select id="selectByuserId_recordId"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from consumables
+    where user_ID = #{0}
+    AND goods_ID = #{1}
+  </select>
 </mapper>
+

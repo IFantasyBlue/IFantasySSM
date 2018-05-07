@@ -53,4 +53,6 @@ public interface ConsumablesMapper {
     
     //自定义方法
     int insert_AI(Consumables record);
+    
+    Consumables selectByuserId_recordId(int id,int goods_id);
 }

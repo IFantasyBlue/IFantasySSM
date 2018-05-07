@@ -123,11 +123,11 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectBygoods_name" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectBygoods_name"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from goods
-    where goods_name = #{name,jdbcType=CHAR} AND goods_type = "player"
+    where goods_name = #{0} AND goods_type = #{1}
   </select>
   
 </mapper>
