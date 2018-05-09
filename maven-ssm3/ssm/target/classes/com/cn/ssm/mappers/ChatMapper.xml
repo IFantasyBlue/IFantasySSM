@@ -123,11 +123,21 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   
-   <select id="selectByReceive_ID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     <select id="selectByReceive_ID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from chat
-    where receive_ID = #{receiveID,jdbcType=INTEGER}
+    where receive_ID = #{receive_ID,jdbcType=INTEGER}
+   order by time DESC
+  </select>
+  
+  
+   <select id="selectByID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from chat
+    where receive_ID = #{ID,jdbcType=INTEGER}
+    or send_id = #{ID,jdbcType=INTEGER}
    order by time DESC
   </select>
   

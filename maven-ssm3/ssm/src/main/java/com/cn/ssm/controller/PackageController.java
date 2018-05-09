@@ -35,8 +35,8 @@ import com.cn.ssm.dao.UserMapper;
 @Controller// 注册为spring容器bean
 @RequestMapping("/package")//请求映射
 public class PackageController {
-    	@Resource //注入对象
-    private IUserService userService;
+    	//@Resource //注入对象
+    //private IUserService userService;
     	@Resource
     private PackageMapper packageMapper;
     	@Resource

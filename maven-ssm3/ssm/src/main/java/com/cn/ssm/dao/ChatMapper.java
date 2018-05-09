@@ -1,5 +1,6 @@
 package com.cn.ssm.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cn.ssm.entity.Chat;
@@ -54,7 +55,8 @@ public interface ChatMapper {
     int updateByPrimaryKey(Chat record);
     
     //自定义方法
-    List<Chat> selectByReceive_ID(int receiveID);
+    ArrayList<Chat> selectByReceive_ID(int receive_ID);
+    ArrayList<Chat> selectByID(int ID);
     
    int insert_AI(Chat record);
 }

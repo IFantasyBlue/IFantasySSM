@@ -1,5 +1,6 @@
 package com.cn.ssm.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cn.ssm.entity.Friends;
@@ -21,7 +22,7 @@ public interface FriendsMapper {
      */
     int insertSelective(Friends record);
     
-    List<Integer> selectByUser_ID(int user_ID1);
+    ArrayList<Integer> selectByUser_ID(int user_ID1);
     
     Friends selectByUser_IDs(int user_ID,int usr_ID2);
     
