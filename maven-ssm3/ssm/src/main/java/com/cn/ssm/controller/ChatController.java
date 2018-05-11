@@ -101,7 +101,7 @@ public class ChatController {
        }
     
     //查询世界发言记录
-    @RequestMapping(value="getworld.json")
+    @RequestMapping(value="getWorld.json")
    	private void chat_getworld(@RequestParam("user_id") int user_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
        	init_world(user_id,request,response);
            	flush(request,response);
@@ -109,13 +109,13 @@ public class ChatController {
     
     //发送世界发言
     @Transactional
-    @RequestMapping(value="sendworld.json")
+    @RequestMapping(value="sendWorld.json")
    	private void chat_sendworld(@RequestParam("user_id") int user_id,@RequestParam("message") String message,HttpServletRequest request, HttpServletResponse response)  throws Exception {
     		Chat record=new Chat();
 		record.setSendId(user_id);
 		record.setReceiveId(-1);//广播对象默认-1
 		record.setTime(new Timestamp(System.currentTimeMillis()));//获取系统当前时间戳
-		record.setContent("worldwide"+(String)message);
+		record.setContent((String)message);
 	
 		chatMapper.insert_AI(record);
     	
@@ -123,24 +123,24 @@ public class ChatController {
        }
     
     //查询特定好友聊天记录
-    @RequestMapping(value="getfriend.json")
+    @RequestMapping(value="getFriend.json")
    	private void chat_getfriend(@RequestParam("user_id") int user_id,
    			HttpServletRequest request, HttpServletResponse response)  throws Exception {
        	init_friend(user_id,request,response);
            	flush(request,response);
        }
     
-    //选择好友
+    //选择好友及查询聊天记录
     @RequestMapping(value="indexfriend.json")
-   	private void chat_indexfriend(@RequestParam("user_id") int user_id,@RequestParam("receiver_id") int receiver_id,
+   	private void chat_indexfriend(@RequestParam("user_id") int user_id,@RequestParam("receiver_id") int record_id,
    			HttpServletRequest request, HttpServletResponse response)  throws Exception {
-    		receiver=userMapper.selectByPrimaryKey(receiver_id);
+    		receiver=userMapper.selectByPrimaryKey(friends_ID.get(record_id));
     		init_friend(user_id,request,response);
     		flush(request,response);
        }
     //向好友发送消息
     @Transactional
-    @RequestMapping(value="sendfriend.json")
+    @RequestMapping(value="sendFriend.json")
    	private void chat_sendfriend(@RequestParam("user_id") int user_id,@RequestParam("message") String message,
    			HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		if(receiver!=null)
@@ -149,7 +149,7 @@ public class ChatController {
 			record.setSendId(user_id);
 			record.setReceiveId(receiver.getId());
 			record.setTime(new Timestamp(System.currentTimeMillis()));//获取系统当前时间戳
-			record.setContent("worldwide"+(String)message);
+			record.setContent((String)message);
 		
 			chatMapper.insert_AI(record);
 		}
