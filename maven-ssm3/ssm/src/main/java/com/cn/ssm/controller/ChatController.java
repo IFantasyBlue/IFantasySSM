@@ -40,6 +40,7 @@ public class ChatController {
     private FriendsMapper friendsMapper;
     private User receiver=null;
     private ArrayList<Integer> friends_ID= new ArrayList<>();
+    private ArrayList<User> world_senders=new ArrayList<>();
     private ArrayList<User> friends= new ArrayList<>();
     private ArrayList<Chat> world_records=new ArrayList<>();
     private ArrayList<Chat> friend_records=new ArrayList<>();
@@ -60,6 +61,11 @@ public class ChatController {
     
     private void init_world(int user_id,HttpServletRequest request, HttpServletResponse response) {
     		world_records=chatMapper.selectByReceive_ID(-1);//广播信息的recive_ID为-1
+    		
+    		world_senders.clear();
+    	for(int i=0;i<world_records.size();i++) {
+    		world_senders.add(userMapper.selectByPrimaryKey(world_records.get(i).getSendId()));
+    	}
     		friend_records.clear();
     		friends_ID.clear();
     		friends.clear();
@@ -67,6 +73,7 @@ public class ChatController {
     
     private void init_friend(int user_id,HttpServletRequest request, HttpServletResponse response) {
     		world_records.clear();
+    		world_senders.clear();
     	if(receiver==null) {
     			return;
     		}
@@ -90,9 +97,10 @@ public class ChatController {
    			
    			json.put("receiver",receiver);
    			json.put("friends", friends);
+   			json.put("world_senders", world_senders);
    			json.put("world_records", world_records);
    			json.put("friend_records", friend_records);
-   			
+
    			out.write(json.toString());
    		}finally{
    		out.flush();
@@ -101,7 +109,7 @@ public class ChatController {
        }
     
     //查询世界发言记录
-    @RequestMapping(value="getWorld.json")
+    @RequestMapping(value="getWorld.json" ,produces = "text/html;charset=UTF-8")
    	private void chat_getworld(@RequestParam("user_id") int user_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
        	init_world(user_id,request,response);
            	flush(request,response);
