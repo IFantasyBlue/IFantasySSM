@@ -59,6 +59,26 @@ public class ChatController {
         	}
 	}
     
+    private void init_index(int user_id,HttpServletRequest request, HttpServletResponse response) {
+    		world_records=chatMapper.selectByReceive_ID(-1);//广播信息的recive_ID为-1
+    		friend_records=chatMapper.selectByReceive_ID(user_id);
+    		friends_ID=friendsMapper.selectByUser_ID(user_id);
+  
+    	for(int i=0;i<world_records.size();i++) {
+        		world_senders.add(userMapper.selectByPrimaryKey(world_records.get(i).getSendId()));
+        	}
+    		
+    		//列出好友并以最近聊天时间降序排序
+        for(int i=0;i<friends_ID.size();i++)
+        	{
+        		friends.add(userMapper.selectByPrimaryKey(friends_ID.get(i)));
+        	}
+        
+        if(friends!=null) {
+        	receiver=userMapper.selectByPrimaryKey(friends_ID.get(0));
+        }
+        	
+	}
     private void init_world(int user_id,HttpServletRequest request, HttpServletResponse response) {
     		world_records=chatMapper.selectByReceive_ID(-1);//广播信息的recive_ID为-1
     		
@@ -97,9 +117,9 @@ public class ChatController {
    			
    			json.put("receiver",receiver);
    			json.put("friends", friends);
+   			json.put("friend_records", friend_records);
    			json.put("world_senders", world_senders);
    			json.put("world_records", world_records);
-   			json.put("friend_records", friend_records);
 
    			out.write(json.toString());
    		}finally{
@@ -108,6 +128,13 @@ public class ChatController {
    		}
        }
     
+    
+    //
+    @RequestMapping(value="getChat.json" ,produces = "text/html;charset=UTF-8")
+   	private void chat_index(@RequestParam("user_id") int user_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
+       	init_index(user_id,request,response);
+           	flush(request,response);
+       }
     //查询世界发言记录
     @RequestMapping(value="getWorld.json" ,produces = "text/html;charset=UTF-8")
    	private void chat_getworld(@RequestParam("user_id") int user_id,HttpServletRequest request, HttpServletResponse response)  throws Exception {
@@ -139,7 +166,7 @@ public class ChatController {
        }
     
     //选择好友及查询聊天记录
-    @RequestMapping(value="indexfriend.json")
+    @RequestMapping(value="indexFriend.json")
    	private void chat_indexfriend(@RequestParam("user_id") int user_id,@RequestParam("receiver_id") int record_id,
    			HttpServletRequest request, HttpServletResponse response)  throws Exception {
     		receiver=userMapper.selectByPrimaryKey(friends_ID.get(record_id));
