@@ -128,17 +128,19 @@
     <include refid="Base_Column_List" />
     from chat
     where receive_ID = #{receive_ID,jdbcType=INTEGER}
-   order by time DESC
+   order by time ASC
   </select>
   
   
-   <select id="selectByID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   <select id="selectByID"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from chat
-    where receive_ID = #{ID,jdbcType=INTEGER}
-    or send_id = #{ID,jdbcType=INTEGER}
-   order by time DESC
+    where 
+    (receive_ID = #{0}  and send_ID = #{1})
+    or
+    (receive_ID = #{1}  and send_ID = #{0})
+   order by time ASC
   </select>
   
     <insert id="insert_AI" keyProperty="ID" parameterType="com.cn.ssm.entity.Chat" useGeneratedKeys="true">

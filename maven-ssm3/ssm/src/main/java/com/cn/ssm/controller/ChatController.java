@@ -60,8 +60,9 @@ public class ChatController {
 	}
     
     private void init_index(int user_id,HttpServletRequest request, HttpServletResponse response) {
+    		world_senders.clear();
+    		friends.clear();
     		world_records=chatMapper.selectByReceive_ID(-1);//广播信息的recive_ID为-1
-    		friend_records=chatMapper.selectByReceive_ID(user_id);
     		friends_ID=friendsMapper.selectByUser_ID(user_id);
   
     	for(int i=0;i<world_records.size();i++) {
@@ -77,8 +78,9 @@ public class ChatController {
         if(friends!=null) {
         	receiver=userMapper.selectByPrimaryKey(friends_ID.get(0));
         }
-        	
+        	friend_records=chatMapper.selectByID(user_id,receiver.getId());
 	}
+    
     private void init_world(int user_id,HttpServletRequest request, HttpServletResponse response) {
     		world_records=chatMapper.selectByReceive_ID(-1);//广播信息的recive_ID为-1
     		
@@ -97,7 +99,7 @@ public class ChatController {
     	if(receiver==null) {
     			return;
     		}
-    		friend_records=chatMapper.selectByID(receiver.getId());
+    		friend_records=chatMapper.selectByID(user_id,receiver.getId());
     		friends_ID=friendsMapper.selectByUser_ID(user_id);
     		friends.clear();
     		//列出好友并以最近聊天时间降序排序

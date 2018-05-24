@@ -56,7 +56,7 @@ public interface ChatMapper {
     
     //自定义方法
     ArrayList<Chat> selectByReceive_ID(int receive_ID);
-    ArrayList<Chat> selectByID(int ID);
+    ArrayList<Chat> selectByID(int sender_id,int receiver_id);
     
    int insert_AI(Chat record);
 }
