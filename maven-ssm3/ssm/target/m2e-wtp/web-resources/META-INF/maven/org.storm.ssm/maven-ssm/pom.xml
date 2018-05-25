@@ -184,7 +184,7 @@
         
         <build>
         <plugins>
-         <plugin>  
+         	<plugin>  
                  <groupId>org.mybatis.generator</groupId>  
                 <artifactId>mybatis-generator-maven-plugin</artifactId>  
                     <version>1.3.2</version>  
@@ -200,7 +200,8 @@
                          <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>   
                         <overwrite>true</overwrite>  
                     </configuration>  
-           </plugin>  
+          	</plugin>  
+           		
            </plugins>
             <finalName>maven-ssm</finalName>
         </build>

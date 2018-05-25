@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.cn.ssm.dao.*;
+
 import com.cn.ssm.entity.Lineup;
 
 
@@ -26,4 +27,8 @@ public class LineupServiceImpl implements ILineupService {
 		return lineupMapper.updateByPrimaryKey(lineup);
 	}
 
+	public int insertLineUp(Lineup lineup){
+		
+		return lineupMapper.insert(lineup);
+	}
 }

@@ -6,27 +6,25 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
-
 
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,19 +37,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import entity.User;
+import entity.User_Info;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -68,7 +72,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mPhoneView;
@@ -77,8 +80,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private Context mContext;
     private int countSeconds = 300;//倒计时秒数
-    private String Akey = null;
+
     private Button mPhoneCheckWdButton;
+    private Intent intent;
 
     private Handler mCountHandler = new Handler(){
         @Override
@@ -96,10 +100,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     };
 
+    private Handler progressHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            if(msg.what == 0){
+                showProgress(true);
+            }else if(msg.what == 1){
+                mCheckPasswdView.setText("");
+                showProgress(false);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        progressHandler = new Handler();
         setContentView(R.layout.activity_login);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -116,20 +134,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptLogin(mPhoneView.getText().toString());
                     return true;
                 }
                 return false;
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
+        Button mSignInButton = (Button) findViewById(R.id.login_button);
 
 
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptLogin(mPhoneView.getText().toString());
             }
         });
 
@@ -209,14 +227,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             new AlertDialog.Builder(mContext).setTitle("提示").setMessage("请输入正确的手机号码").setCancelable(true).show();
         } else {
             Log.e("tag", "输入了正确的手机号");
-            AliMessageSend aliMessageSend = new AliMessageSend(mobile);
-            this.Akey = aliMessageSend.Akey;
+            UserModel userinfo = new UserModel(null);
+            SendSmsResponse ssr = new SendSmsResponse();
             try {
-                aliMessageSend.sendSms();
+                ssr = userinfo.sendAKey(mobile);
                 startCountBack();
             } catch (ClientException e) {
                 e.printStackTrace();
                 Log.e("tag", "发送失败");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -242,52 +262,89 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+    private void attemptLogin(final String mobile) {
 
-        // Reset errors.
-        mPhoneView.setError(null);
-        mCheckPasswdView.setError(null);
+        new Thread(){
+            public void run(){
+                Message msg = new Message();
+                msg.what = 0;
+                progressHandler.sendMessage(msg);
+                UserModel userHttp = new UserModel(null);
+                int akey = 0;
+                try{
+                    try {
 
-        // Store values at the time of the login attempt.
-        String email = mPhoneView.getText().toString();
-        String password = mCheckPasswdView.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
+                        akey = Integer.parseInt(mCheckPasswdView.getText().toString());
+                    }catch (NumberFormatException e){
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mCheckPasswdView.setError(getString(R.string.error_incorret_check_passwd));
-            focusView = mCheckPasswdView;
-            cancel = true;
-        }
+                    }
+                    JSONObject o = userHttp.userlogin(mobile,akey);
+                    int status =o.getInt("status");
+                    boolean current = o.getBoolean("akey");
+                    Log.i("tag","status:"+ status);
+                    Log.i("tag","akey:"+current);
+                    if(current)
+                    {
+                        if(status==0){
+                            Log.e("tag","找不到该id");
+                            intent = new Intent(LoginActivity.this,SignActivity.class);
+                            intent.putExtra("id",mobile);
+                            startActivity(intent);
+                        }else{
+                            Log.e("tag","登录成功");
+                            JSONObject e = o.getJSONObject("user");
+                            JSONObject i = o.getJSONObject("userinfo");
+                            String token = o.getJSONObject("token").getString("id");
+                            SharedPreferences sp = getSharedPreferences("sp_token", Context.MODE_PRIVATE);
+                            sp.edit().putString("token",token).commit();
+                            intent = new Intent(LoginActivity.this,MainActivity.class);
+                            User user = new User();
+                            user.setId(e.getInt("id"));
+                            user.setUserinfo(e.getInt("userinfo"));
+                            user.setName(e.getString("name"));
+                            user.setPhone(e.getString("phone"));
+                            user.setSetting(e.getInt("setting"));
+                            user.setPower(e.getInt("power"));
+                            user.setMoney(e.getInt("money"));
+                            user.setFriendsNum(e.getInt("friendsNum"));
+                            user.setPackageNum(e.getInt("packageNum"));
+                            user.setoTactics(e.getInt("oTactics"));
+                            user.setdTactics(e.getInt("dTactics"));
+                            intent.putExtra("user",user);
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mPhoneView.setError(getString(R.string.error_field_required));
-            focusView = mPhoneView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mPhoneView.setError(getString(R.string.error_invalid_phonenumber));
-            focusView = mPhoneView;
-            cancel = true;
-        }
+                            User_Info userinfo = new User_Info();
+                            userinfo.setUserId(i.getInt("userId"));
+                            userinfo.setLevel(i.getInt("level"));
+                            userinfo.setVip(i.getInt("vip"));
+                            userinfo.setBelongteam(i.getInt("belongteam"));
+                            intent.putExtra("userinfo",userinfo);
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
+                            startActivity(intent);
+                            finish();
+                        }
+
+                    }
+                    else
+                    {
+                        Log.e("tag","验证失败，验证码错误！");
+                        Toast.makeText(LoginActivity.this, "验证失败，验证码错误！", Toast.LENGTH_SHORT).show();
+                        msg.what = 1;
+                        progressHandler.sendMessage(msg);
+                    }
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+
+
+
+        }.start();
     }
+
+
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
@@ -298,6 +355,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
+
+
 
     /**
      * Shows the progress UI and hides the login form.
@@ -389,61 +448,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mCheckPasswdView.setError(getString(R.string.error_incorret_check_passwd));
-                mCheckPasswdView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 

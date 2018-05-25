@@ -11,7 +11,8 @@
                             http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">  
         <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->  
         <context:component-scan base-package="com.cn.ssm.controller" />  
-
+		
+		
         <!--避免IE执行AJAX时，返回JSON出现下载文件 -->  
         <bean id="mappingJacksonHttpMessageConverter"  
             class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
@@ -36,7 +37,7 @@
             <property name="prefix" value="/WEB-INF/" />  
             <property name="suffix" value=".jsp" />  
         </bean>  
-
+		
         <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->  
         <bean id="multipartResolver"    
             class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
@@ -47,5 +48,16 @@
             <!-- 内存中的最大值 -->  
             <property name="maxInMemorySize" value="40960" />    
         </bean>   
-
-    </beans>  
+        
+		<mvc:annotation-driven/>
+		<!-- 拦截器  --> 
+		<mvc:interceptors>  
+   			<!-- 多个拦截器，顺序执行 说明： 1 mvc:mapping 拦截器路径配置 ; 2 mvc:exclude-mapping 拦截器不需要拦截的路径--> 
+    		<mvc:interceptor>  
+       			<mvc:mapping path="/**" />
+       			<bean class="com.cn.ssm.aop.LoginInterceptor"></bean>  
+   			</mvc:interceptor>   
+ 		</mvc:interceptors>
+ 		
+		
+    </beans>

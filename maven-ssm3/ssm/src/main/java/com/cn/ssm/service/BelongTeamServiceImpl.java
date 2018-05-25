@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cn.ssm.dao.*;
 import com.cn.ssm.entity.BelongTeam;
 
+
 @Service
 @Transactional
 public class BelongTeamServiceImpl implements IBelongTeamService {
@@ -24,4 +25,8 @@ public class BelongTeamServiceImpl implements IBelongTeamService {
 		return belongTeamMapper.updateByPrimaryKey(belongTeam);
 	}
 
+	public int insertNewBelongTeam(BelongTeam btm){
+		
+		return belongTeamMapper.insert(btm);
+	}
 }
