@@ -50,4 +50,9 @@ public interface PackageMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Package record);
+    //自定义方法
+    Package selectByUserID_goodsid(int userID,int goodsid); //查询用户名下仓库中是否存在该类物品
+    int insertfrag_autoIncrement(Package record);//按主键自增方式插入记录
+    int insert_autoIncrement(Package record);//按主键自增方式把球员拆成碎片插入记录
+
 }

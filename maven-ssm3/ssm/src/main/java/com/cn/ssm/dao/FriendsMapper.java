@@ -1,7 +1,5 @@
 package com.cn.ssm.dao;
 
-import java.util.List;
-
 import com.cn.ssm.entity.Friends;
 
 public interface FriendsMapper {
@@ -20,6 +18,4 @@ public interface FriendsMapper {
      * @mbggenerated
      */
     int insertSelective(Friends record);
-    
-    List<Friends> getById(int user_id);
 }

@@ -1,5 +1,6 @@
 package com.cn.ssm.dao;
 
+import java.util.List;
 import com.cn.ssm.entity.Goods;
 
 public interface GoodsMapper {
@@ -50,4 +51,11 @@ public interface GoodsMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Goods record);
+    //自定义方法
+  
+    Goods selectByPlayerName(String name);  //是否存在某球员的碎片
+    List<Goods> selectAllGoods();  //取出供免费招募的goods
+    List<Goods> selectOnceGoods();  //取出满足一次招募条件的goods
+    List<Goods> selectFiveGoods();  //取出满足五次招募条件的goods
+
 }

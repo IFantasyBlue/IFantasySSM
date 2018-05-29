@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string-array name="directArr">
+        <item id="Pos">位置</item>
+        <item id="Score">评分</item>
+        <item id="Salary">薪资</item>
+    </string-array>
+</resources>

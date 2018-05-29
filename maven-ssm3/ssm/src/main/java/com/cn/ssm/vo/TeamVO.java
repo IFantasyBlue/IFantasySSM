@@ -19,13 +19,13 @@ public class TeamVO {
 	public void setMoney(int money) {
 		this.money = money;
 	}
-	public List<MembersVO> getList() {
+	public List<TeamMembers> getList() {
 		return list;
 	}
-	public void setList(List<MembersVO> list) {
+	public void setList(List<TeamMembers> list) {
 		this.list = list;
 	}
 	public int money;
-	List<MembersVO> list;
+	List<TeamMembers> list;
 	
 }

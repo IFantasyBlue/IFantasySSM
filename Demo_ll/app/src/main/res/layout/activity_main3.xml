@@ -1,0 +1,404 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:background="@drawable/ic_launcher_background"
+            >
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="返回"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:id="@+id/tv0"
+                />
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/iv"
+                />
+            <LinearLayout
+                android:layout_width="450dp"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="300dp"
+                        android:layout_height="50dp"
+                        android:text="科比"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:id="@+id/tv24"
+                        />
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:text="出战"
+                        android:textSize="18dp"
+                        android:background="#5B5B5B"
+                        android:id="@+id/bt2"
+                        />
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:text="解约"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="#5B5B5B"
+                        android:id="@+id/bt1"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:text="球队/湖人"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:id="@+id/tv25"
+                        />
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="match_parent"
+                        android:text="球衣号/24号"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/tv26"
+                        />
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:text="位置/SG"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:id="@+id/tv27"
+                        android:layout_marginLeft="5dp"
+                        />
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:text="评分/99"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/tv28"
+                        />
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="match_parent"
+                        android:text="薪资/9999万"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/tv29"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+
+        android:orientation="horizontal"
+        android:layout_marginTop="100dp"
+
+        android:background="@drawable/ic_launcher_background"
+        >
+        <TextView
+            android:layout_width="225dp"
+            android:layout_height="match_parent"
+            android:text="基本信息"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:id="@+id/tv4"
+            />
+        <TextView
+            android:layout_width="225dp"
+            android:layout_height="match_parent"
+            android:text="投篮热图"
+            android:textSize="20dp"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="225dp"
+            android:layout_height="match_parent"
+            android:text="数据"
+            android:textSize="20dp"
+            android:gravity="center"
+
+            />
+
+    </LinearLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/ic_launcher_background"
+
+        >
+        <TableRow>
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="赛季"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="球队"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="出场"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="首发"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="时间"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="得分"
+                android:textSize="15dp"
+
+                /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="篮板"
+            android:textSize="15dp"
+
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:width="33dp"
+                android:height="30dp"
+                android:text="助攻"
+
+                android:textSize="15dp" /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="抢断"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="盖帽"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="失误"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="投篮"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="三分"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="罚球"
+            android:textSize="15dp"
+
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:width="33dp"
+                android:height="30dp"
+                android:text="eFG"
+
+                android:textSize="15dp" /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="TS"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="ortg"
+            android:textSize="15dp"
+
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="drtg"
+            android:textSize="15dp"
+
+            />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="赛季"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="球队"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="出场"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="首发"
+                android:textSize="15dp"
+
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="时间"
+                android:textSize="15dp"
+                android:id="@+id/tv6"
+                />
+            <TextView
+                android:width="33dp"
+                android:height="30dp"
+                android:text="得分"
+                android:textSize="15dp"
+                android:id="@+id/tv7"
+                /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="篮板"
+            android:textSize="15dp"
+            android:id="@+id/tv8"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="助攻"
+            android:textSize="15dp"
+            android:id="@+id/tv9"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="抢断"
+            android:textSize="15dp"
+            android:id="@+id/tv10"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="盖帽"
+            android:textSize="15dp"
+            android:id="@+id/tv11"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="失误"
+            android:textSize="15dp"
+            android:id="@+id/tv12"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="投篮"
+            android:textSize="15dp"
+            android:id="@+id/tv13"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="三分"
+            android:textSize="15dp"
+            android:id="@+id/tv14"
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="罚球"
+            android:textSize="15dp"
+            android:id="@+id/tv15"
+            /><TextView
+            android:width="33dp"
+            android:height="30dp"
+            android:text="eFG"
+            android:textSize="15dp"
+            android:id="@+id/tv16"
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="TS"
+            android:textSize="15dp"
+            android:id="@+id/tv17"
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="ortg"
+            android:textSize="15dp"
+            android:id="@+id/tv18"
+
+            /><TextView
+            android:width="45dp"
+            android:height="30dp"
+            android:text="drtg"
+            android:textSize="15dp"
+            android:id="@+id/tv19"
+            />
+
+        </TableRow>
+
+
+    </TableLayout>
+            </RelativeLayout>

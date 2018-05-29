@@ -1,5 +1,8 @@
 package com.cn.ssm.dao;
 
+import java.util.List;
+
+import com.cn.ssm.entity.Goods;
 import com.cn.ssm.entity.Players;
 
 public interface PlayersMapper {
@@ -50,4 +53,9 @@ public interface PlayersMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Players record);
+	 List<Players> selectDirPlayers();  //鍙栧嚭鐣岄潰榛樿鏄剧ず鐨勭悆鍛�
+	 List<Players> selectByPosition(String position);  //鍙栧嚭婊¤冻鐢ㄦ埛鎸変綅缃畾鍚戞嫑鍕熺殑鐞冨憳
+	 List<Players> selectByScore();  //鍙栧嚭婊¤冻鐢ㄦ埛鎸夎瘎鍒嗗畾鍚戞嫑鍕熺殑鐞冨憳
+	 List<Players> selectBySalary();  //鍙栧嚭婊¤冻鐢ㄦ埛鎸夎柂璧勫畾鍚戞嫑鍕熺殑鐞冨憳
+	 Players selectByName(String name);
 }

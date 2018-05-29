@@ -1,6 +1,5 @@
 package com.cn.ssm.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -98,11 +97,4 @@ public class PlayerVO {
 	public double arms;
 	public String draft;
 	public String contract;
-	public BigDecimal perEv;
-	public BigDecimal getPerEv() {
-		return perEv;
-	}
-	public void setPerEv(BigDecimal perEv) {
-		this.perEv = perEv;
-	}
 }

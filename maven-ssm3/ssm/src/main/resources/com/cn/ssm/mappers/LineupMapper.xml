@@ -133,5 +133,4 @@
       PG = #{pg,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
-  
 </mapper>

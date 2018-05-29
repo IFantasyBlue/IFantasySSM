@@ -50,4 +50,7 @@ public interface UserMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(User record);
+    int updateMoney(int money,int id);
+    int updateRecruited(int recruited,int id);
+    int updateRecruitTime(double recruitTime,int id);
 }

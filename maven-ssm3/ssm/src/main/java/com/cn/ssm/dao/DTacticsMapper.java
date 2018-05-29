@@ -1,9 +1,6 @@
 package com.cn.ssm.dao;
 
-import java.util.List;
-
 import com.cn.ssm.entity.DTactics;
-import com.cn.ssm.entity.OTactics;
 
 public interface DTacticsMapper {
     /**
@@ -53,6 +50,4 @@ public interface DTacticsMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(DTactics record);
-    
-    List <DTactics> getAll();
 }

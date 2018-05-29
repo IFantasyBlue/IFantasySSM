@@ -1,5 +1,7 @@
 package com.cn.ssm.service;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -20,17 +22,25 @@ public class UserServiceImpl implements IUserService {
 		User user = new User();
 		
 		user = userMapper.selectByPrimaryKey(id);
+		System.out.println(user.toString());
 		return user;
 	}
 
+	@Override
 	public int updateUserByMoney(User user) {
 		// TODO Auto-generated method stub
 		return userMapper.updateByPrimaryKey(user);
 	}
 
-	public int updateByKey(User user) {
+	@Override
+	public User updateUserRecruit(int id) {
 		// TODO Auto-generated method stub
-		return userMapper.updateByPrimaryKey(user);
+		User user = getById(id);
+    	Date date = new Date();
+		long time=date.getTime();
+		double recruitTime=(double) time;
+		userMapper.updateRecruitTime(recruitTime,id);
+		return user;
 	}
 
 }
