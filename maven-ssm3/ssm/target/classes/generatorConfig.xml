@@ -17,8 +17,8 @@
             </commentGenerator>  
             <!--数据库链接 参数 -->  
             <jdbcConnection driverClass="com.mysql.jdbc.Driver"  
-                connectionURL="jdbc:mysql://localhost:3306/nba" userId="root"  
-                password="yangjinli9658">  
+                connectionURL="jdbc:mysql://192.168.0.2:3306/team2" userId="user"  
+                password="12345qwert">  
             </jdbcConnection>  
             <javaTypeResolver>  
                 <!-- This property is used to specify whether MyBatis Generator should   
@@ -91,21 +91,21 @@
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>-->
                   
-             <!--     <table tableName="players" domainObjectName="Players"  
+               <!-- <table tableName="players" domainObjectName="Players"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table>  -->  
-                 
-                 <table tableName="players_info" domainObjectName="PlayersInfo"  
+                selectByExampleQueryId="false"></table>  -->
+                
+                 <!-- <table tableName="players_info" domainObjectName="PlayersInfo"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> 
+                selectByExampleQueryId="false"></table>   -->
                  
-<!--                <table tableName="players_stats" domainObjectName="Players_Stats"  
+     <table tableName="players_stats" domainObjectName="Players_Stats"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>
-                   -->
+                   
               <!--   <table tableName="setting" domainObjectName="Setting"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
@@ -115,11 +115,11 @@
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
                 selectByExampleQueryId="false"></table>   -->
-               <!--  
-                <table tableName="user" domainObjectName="User"  
+              
+                <!-- <table tableName="user" domainObjectName="User"  
                 enableCountByExample="false" enableUpdateByExample="false"  
                 enableDeleteByExample="false" enableSelectByExample="false"  
-                selectByExampleQueryId="false"></table> -->
+                selectByExampleQueryId="false"></table>  -->
                 <!--
                 <table tableName="user_Info" domainObjectName="User_Info"  
                 enableCountByExample="false" enableUpdateByExample="false"  

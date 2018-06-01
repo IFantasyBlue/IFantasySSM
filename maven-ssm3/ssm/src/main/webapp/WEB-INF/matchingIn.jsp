@@ -15,7 +15,7 @@ setTimeout(function () { this.location.href = "http://localhost:8080/ssm/matchin
     	
     
     %>
-    <%=list.get(i).getUsername() %>
+    <%=list.get(i).getName() %>
     <%} %>
     
     

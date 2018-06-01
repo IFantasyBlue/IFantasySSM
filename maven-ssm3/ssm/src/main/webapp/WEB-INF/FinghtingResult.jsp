@@ -9,7 +9,7 @@
   <body>  
     <h1><%=request.getAttribute("info") %>...</h1>
     <%List<User> list=(List<User>)request.getAttribute("list"); %>
-    <%=list.get(0).getUsername() %><%=list.get(0).getPower() %> VS <%=list.get(1).getUsername() %><%=list.get(1).getPower() %>
+    <%=list.get(0).getName() %><%=list.get(0).getPower() %> VS <%=list.get(1).getName() %><%=list.get(1).getPower() %>
     
    
   </body>  

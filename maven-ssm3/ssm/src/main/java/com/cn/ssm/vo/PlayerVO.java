@@ -20,10 +20,10 @@ public class PlayerVO {
 	public void setTeam(String team) {
 		this.team = team;
 	}
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 	public String getPosition() {
@@ -87,7 +87,7 @@ public class PlayerVO {
 		this.contract = contract;
 	}
 	public String team;
-	public int number;
+	public String number;
 	public String position;
 	public int salary;
 	public Date birth;
@@ -98,11 +98,11 @@ public class PlayerVO {
 	public double arms;
 	public String draft;
 	public String contract;
-	public BigDecimal perEv;
-	public BigDecimal getPerEv() {
+	public double perEv;
+	public double getPerEv() {
 		return perEv;
 	}
-	public void setPerEv(BigDecimal perEv) {
+	public void setPerEv(double perEv) {
 		this.perEv = perEv;
 	}
 }

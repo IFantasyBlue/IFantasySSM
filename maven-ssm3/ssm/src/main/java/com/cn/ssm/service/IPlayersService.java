@@ -5,4 +5,5 @@ import com.cn.ssm.entity.Players;
 public interface IPlayersService {
 
 	public Players getById(int id);
+	public Players getByName(String name);
 }

@@ -2,9 +2,11 @@ package com.cn.ssm.controller;
 
 import javax.annotation.Resource;
 
-import com.cn.ssm.entity.Players_Stats;
+import org.springframework.stereotype.Controller;
 
+import com.cn.ssm.entity.Players_Stats;
 import com.cn.ssm.service.IPlayers_statsService;
+
 
 public class TacticsMethods {
 	

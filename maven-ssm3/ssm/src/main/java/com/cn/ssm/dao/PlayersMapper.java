@@ -50,4 +50,5 @@ public interface PlayersMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Players record);
+    Players selectByName(String name);
 }

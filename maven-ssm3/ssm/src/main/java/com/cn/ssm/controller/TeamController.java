@@ -91,6 +91,7 @@ public class TeamController {
         teamVo.setPower(user.getPower());
         teamVo.setList(list2);
         JSONObject json = JSONObject.fromObject(teamVo);
+        json.put("username", user.getName());
         response.setContentType("application/json");
         PrintWriter out = null;
 		try {
@@ -372,16 +373,63 @@ public class TeamController {
         playerVO.setSalary(player.getSalary());
         playerVO.setTeam(player.getTeam());
         playerVO.setWeight(playersInfo.getWeight());
-        playerVO.setArms(playersInfo.getArms());
+        //playerVO.setArms(playersInfo.getArms());
         playerVO.setBirth(playersInfo.getBirth());
         playerVO.setContract(player.getContract());
         playerVO.setDraft(playersInfo.getDraft());
         playerVO.setHeight(playersInfo.getHeight());
-        playerVO.setPerEv(players_Stats.getPerEv());
-        playerVO.setStandTall(playersInfo.getStandTall());
+        playerVO.setPerEv(players_Stats.getPer());
+        //playerVO.setStandTall(playersInfo.getStandTall());
         JSONObject json = JSONObject.fromObject(playerVO,jsonConfig);
         System.out.println("abc"+json.toString());
         response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.write(json.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.flush();
+            out.close();
+		}
+        
+        //model.addAttribute("player",playerVO);
+        
+    }
+    /*给出指定球员ID显示球员的基本信息
+     * 根据球员名字到数据库查询球员信息
+     */
+    @RequestMapping("/playerShow2.json")
+    public void toPlayer2(HttpServletRequest request,HttpServletResponse response,Model model){
+        String name = request.getParameter("name");
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.registerJsonValueProcessor(Date.class,  new JsonDateValueProcessor());
+        Players player = playersService.getByName(name);
+        PlayersInfo playersInfo = playersInfoService.getById(player.getId());
+        Players_Stats players_Stats = iPlayers_statsService.getById(player.getId());
+        PlayerVO playerVO = new PlayerVO();
+        playerVO.setName(player.getName());
+        playerVO.setNation(playersInfo.getNation());
+        playerVO.setNumber(playersInfo.getNumber());
+        playerVO.setPosition(player.getPosition());
+        playerVO.setSalary(player.getSalary());
+        playerVO.setTeam(player.getTeam());
+        playerVO.setWeight(playersInfo.getWeight());
+        //playerVO.setArms(playersInfo.getArms());
+        playerVO.setBirth(playersInfo.getBirth());
+        playerVO.setContract(player.getContract());
+        playerVO.setDraft(playersInfo.getDraft());
+        playerVO.setHeight(playersInfo.getHeight());
+        playerVO.setPerEv(players_Stats.getPer());
+       // playerVO.setStandTall(playersInfo.getStandTall());
+        JSONObject json = JSONObject.fromObject(playerVO,jsonConfig);
+        json.put("player_id", player.getId());
+        System.out.println("abc"+json.toString());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
         PrintWriter out = null;
 		try {
 			out = response.getWriter();
@@ -398,7 +446,6 @@ public class TeamController {
         
     }
     
-    
     /*给出指定球员ID显示球员的数据信息
      * 根据球员id到数据库球员数据表查询
      */
@@ -406,10 +453,18 @@ public class TeamController {
     public void showPlayerStats(HttpServletRequest request,HttpServletResponse response,Model model){
         int player_id = Integer.parseInt(request.getParameter("player_id"));
 
+        Players player = playersService.getById(player_id);
+        PlayersInfo playersInfo = playersInfoService.getById(player.getId());
         Players_Stats players_Stats=iPlayers_statsService.getById(player_id);
         
         JSONObject json = JSONObject.fromObject(players_Stats);
+        json.put("number", playersInfo.getNumber());
+        json.put("team", player.getTeam());
+        json.put("position", player.getPosition());
+        json.put("salary", player.getSalary());
+        json.put("name", player.getName());
         System.out.println("abc"+json.toString());
+        response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
         PrintWriter out = null;
 		try {
@@ -443,8 +498,8 @@ public class TeamController {
         	if(players.getPosition().equals("C")){
         		int id = lineup.getC();
         		Players_Stats player2 = iPlayers_statsService.getById(id);
-        		double player_ev=player.getPerEv().doubleValue();
-        		double player2_ev=player2.getPerEv().doubleValue();
+        		double player_ev=player.getPer().doubleValue();
+        		double player2_ev=player2.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power);
@@ -460,8 +515,8 @@ public class TeamController {
         	}else if(players.getPosition().equals("PF")){
         		int id = lineup.getPf();
         		Players_Stats player2 = iPlayers_statsService.getById(id);
-        		double player_ev=player.getPerEv().doubleValue();
-        		double player2_ev=player2.getPerEv().doubleValue();
+        		double player_ev=player.getPer().doubleValue();
+        		double player2_ev=player2.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player2_power-player_power);
@@ -474,8 +529,8 @@ public class TeamController {
         	}else if(players.getPosition().equals("PG")){
         		int id = lineup.getPg();
         		Players_Stats player2 = iPlayers_statsService.getById(id);
-        		double player_ev=player.getPerEv().doubleValue();
-        		double player2_ev=player2.getPerEv().doubleValue();
+        		double player_ev=player.getPer().doubleValue();
+        		double player2_ev=player2.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player2_power-player_power);
@@ -488,8 +543,8 @@ public class TeamController {
         	}else if(players.getPosition().equals("SF")){
         		int id = lineup.getSf();
         		Players_Stats player2 = iPlayers_statsService.getById(id);
-        		double player_ev=player.getPerEv().doubleValue();
-        		double player2_ev=player2.getPerEv().doubleValue();
+        		double player_ev=player.getPer().doubleValue();
+        		double player2_ev=player2.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player2_power-player_power);
@@ -502,8 +557,8 @@ public class TeamController {
         	}else{
         		int id = lineup.getSg();
         		Players_Stats player2 = iPlayers_statsService.getById(id);
-        		double player_ev=player.getPerEv().doubleValue();
-        		double player2_ev=player2.getPerEv().doubleValue();
+        		double player_ev=player.getPer().doubleValue();
+        		double player2_ev=player2.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player2_power-player_power);
@@ -546,8 +601,8 @@ public class TeamController {
         	if(player_in.getPosition().equals("C")){
         		
         		
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power);
@@ -561,8 +616,8 @@ public class TeamController {
         		messageVO.setStatus(1);
         		
         	}else if(player_in.getPosition().equals("PF")){
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power);
@@ -575,8 +630,8 @@ public class TeamController {
         		lineupService.updateLineup(lineup);
         		messageVO.setStatus(1);
         	}else if(player_in.getPosition().equals("PG")){
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power);
@@ -589,8 +644,8 @@ public class TeamController {
         		lineupService.updateLineup(lineup);
         		messageVO.setStatus(1);
         	}else if(player_in.getPosition().equals("SF")){
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power);
@@ -603,8 +658,8 @@ public class TeamController {
         		lineupService.updateLineup(lineup);
         		messageVO.setStatus(1);
         	}else{
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power);
@@ -623,8 +678,8 @@ public class TeamController {
         	if(player_out.getPosition().equals("C")){
         		
         		
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
@@ -639,8 +694,8 @@ public class TeamController {
         		
         	}else if(player_out.getPosition().equals("PF")){
 
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
@@ -654,8 +709,8 @@ public class TeamController {
         		messageVO.setStatus(1);
         	}else if(player_out.getPosition().equals("PG")){
 
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
@@ -669,8 +724,8 @@ public class TeamController {
         		messageVO.setStatus(1);
         	}else if(player_out.getPosition().equals("SF")){
 
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);
@@ -684,8 +739,8 @@ public class TeamController {
         		messageVO.setStatus(1);
         	}else{
 
-        		double player_ev=player_in_stats.getPerEv().doubleValue();
-        		double player2_ev=player_out_stats.getPerEv().doubleValue();
+        		double player_ev=player_in_stats.getPer().doubleValue();
+        		double player2_ev=player_out_stats.getPer().doubleValue();
         		int player_power=(int) Math.floor((100*player_ev/27.9/2));
         		int player2_power=(int) Math.floor((100*player2_ev/27.9));
         		user.setPower(user.getPower()+player_power-player2_power-10);

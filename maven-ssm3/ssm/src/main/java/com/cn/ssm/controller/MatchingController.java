@@ -22,6 +22,7 @@ import com.cn.ssm.entity.BelongTeam;
 import com.cn.ssm.entity.Friends;
 import com.cn.ssm.entity.Lineup;
 import com.cn.ssm.entity.Notice;
+import com.cn.ssm.entity.Players_Stats;
 import com.cn.ssm.entity.Records;
 import com.cn.ssm.entity.TeamMembers;
 import com.cn.ssm.entity.User;
@@ -151,6 +152,7 @@ public class MatchingController {
             		json.put("user1", user);
             		json.put("user2", user2);
             		json.put("status", 1);
+            		System.out.println(json.toString());
                     response.setContentType("application/json");
                     PrintWriter out = null;
             		try {
@@ -272,41 +274,43 @@ public class MatchingController {
 		int user2_dt_id = user.getdTactics();
 		Lineup lineup1=lineupService.getById(user_id);
 		Lineup lineup2=lineupService.getById(user2_id);
-		TacticsMethods tacticsMethods = new TacticsMethods();
+		System.out.println(lineup2.toString());
+		System.out.println(lineup2.getSf()+lineup2.getPf()+lineup2.getC());
+		
 		double dtPower1 = 0;
 		double dtPower2 = 0;
 		switch(user1_dt_id){
 		case 1:
-			dtPower2 = tacticsMethods.DTacticsNo1(lineup2.getSg(), lineup2.getPg());
+			dtPower2 = DTacticsNo1(lineup2.getSg(), lineup2.getPg());
 			break;
 		case 2:
-			dtPower2 = tacticsMethods.DTacticsNo2(lineup2.getSg(), lineup2.getPg());
+			dtPower2 = DTacticsNo2(lineup2.getSg(), lineup2.getPg());
 			break;
 		case 3:
-			dtPower2 = tacticsMethods.DTacticsNo3(lineup2.getSf(), lineup2.getPf(), lineup2.getC());
+			dtPower2 = DTacticsNo3(lineup2.getSf(), lineup2.getPf(), lineup2.getC());
 			break;
 		case 4:
-			dtPower2 = tacticsMethods.DTacticsNo4(lineup2.getSf(), lineup2.getPf(), lineup2.getC());
+			dtPower2 = DTacticsNo4(lineup2.getSf(), lineup2.getPf(), lineup2.getC());
 			break;
 		case 5:
-			dtPower2 = tacticsMethods.DTacticsNo5(lineup2.getSf(), lineup2.getPf(), lineup2.getC(), lineup2.getSg(), lineup2.getPg());
+			dtPower2 = DTacticsNo5(lineup2.getSf(), lineup2.getPf(), lineup2.getC(), lineup2.getSg(), lineup2.getPg());
 			break;
 		}
 		switch(user2_dt_id){
 		case 1:
-			dtPower1 = tacticsMethods.DTacticsNo1(lineup1.getSg(), lineup1.getPg());
+			dtPower1 = DTacticsNo1(lineup1.getSg(), lineup1.getPg());
 			break;
 		case 2:
-			dtPower1 = tacticsMethods.DTacticsNo2(lineup1.getSg(), lineup1.getPg());
+			dtPower1 = DTacticsNo2(lineup1.getSg(), lineup1.getPg());
 			break;
 		case 3:
-			dtPower1 = tacticsMethods.DTacticsNo3(lineup1.getSf(), lineup1.getPf(), lineup1.getC());
+			dtPower1 = DTacticsNo3(lineup1.getSf(), lineup1.getPf(), lineup1.getC());
 			break;
 		case 4:
-			dtPower1 = tacticsMethods.DTacticsNo4(lineup1.getSf(), lineup1.getPf(), lineup1.getC());
+			dtPower1 = DTacticsNo4(lineup1.getSf(), lineup1.getPf(), lineup1.getC());
 			break;
 		case 5:
-			dtPower1 = tacticsMethods.DTacticsNo5(lineup1.getSf(), lineup1.getPf(), lineup1.getC(), lineup1.getSg(), lineup1.getPg());
+			dtPower1 = DTacticsNo5(lineup1.getSf(), lineup1.getPf(), lineup1.getC(), lineup1.getSg(), lineup1.getPg());
 			break;
 		}
 		int power1=user.getPower();
@@ -803,4 +807,94 @@ public class MatchingController {
 		userService.updateByKey(user2);
 		return "FriendsPK";
     }
+double DTacticsNo4(int sf, int pf, int c) {
+		
+		double sword_assist = 0;
+		double sword_point = 0;
+		double sword = 0;
+		
+		Players_Stats sf_Stat = iPlayers_statsService.getById(sf);
+		Players_Stats pf_Stat = iPlayers_statsService.getById(pf);
+		Players_Stats c_Stat = iPlayers_statsService.getById(c);
+		
+		sword_assist = (sf_Stat.getAssist() + pf_Stat.getAssist() + pf_Stat.getAssist()) * 0.25 ;
+		sword_point = (sf_Stat.getPoint() + pf_Stat.getPoint() + c_Stat.getPoint()) * 0.2;
+		sword = (sword_assist + sword_point) * 100;
+		
+		return sword;
+	}
+double DTacticsNo1(int sg, int pg) {
+	
+	double sword_assist = 0;
+	double sword_point = 0;
+	double sword = 0;
+	
+	Players_Stats sg_Stat = iPlayers_statsService.getById(sg);
+	Players_Stats pg_Stat = iPlayers_statsService.getById(pg);
+	
+	sword_assist = (sg_Stat.getAssist() + sg_Stat.getAssist()) * 0.5 ;
+	sword_point = (pg_Stat.getPoint() + pg_Stat.getPoint()) * 0.125;
+	sword = (sword_assist + sword_point) * 100;
+	
+	return sword;
+}
+
+/*
+ * 防守战术之外线紧逼
+ * 战力偏正：(sg&&pg(assist) * 0.25 + sg&&pg(point) * 0.2)*100
+ */
+double DTacticsNo2(int sg, int pg) {
+	
+	double sword_assist = 0;
+	double sword_point = 0;
+	double sword = 0;
+	
+	Players_Stats sg_Stat = iPlayers_statsService.getById(sg);
+	Players_Stats pg_Stat = iPlayers_statsService.getById(pg);
+	
+	sword_assist = (sg_Stat.getAssist() + pg_Stat.getAssist()) * 0.25 ;
+	sword_point = (sg_Stat.getPoint() + pg_Stat.getPoint()) * 0.2;
+	sword = (sword_assist + sword_point) * 100;
+	
+	return sword;
+}
+
+/*
+ * 防守战术之内线联防
+ * 战力偏正：(sf&&pf&&c(assist) * 0.5 + sf&&pf&&c(point) * 0.125) * 100
+ */
+double DTacticsNo3(int sf, int pf, int c) {
+	
+	double sword_assist = 0;
+	double sword_point = 0;
+	double sword = 0;
+	
+	Players_Stats sf_Stat = iPlayers_statsService.getById(sf);
+	Players_Stats pf_Stat = iPlayers_statsService.getById(pf);
+	Players_Stats c_Stat = iPlayers_statsService.getById(c);
+	
+	sword_assist = (sf_Stat.getAssist() + pf_Stat.getAssist() + pf_Stat.getAssist()) * 0.5 ;
+	sword_point = (sf_Stat.getPoint() + pf_Stat.getPoint() + c_Stat.getPoint()) * 0.125;
+	sword = (sword_assist + sword_point) * 100;
+	
+	return sword;
+}
+double DTacticsNo5(int sf, int pf, int c, int sg, int pg) {
+	
+	double sword_assist = 0;
+	double sword_point = 0;
+	double sword = 0;
+	
+	Players_Stats sf_Stat = iPlayers_statsService.getById(sf);
+	Players_Stats pf_Stat = iPlayers_statsService.getById(pf);
+	Players_Stats c_Stat = iPlayers_statsService.getById(c);
+	Players_Stats sg_Stat = iPlayers_statsService.getById(sg);
+	Players_Stats pg_Stat = iPlayers_statsService.getById(pg);
+	
+	sword_assist = (sf_Stat.getAssist() + pf_Stat.getAssist() + pf_Stat.getAssist() + sg_Stat.getAssist() + pg_Stat.getAssist()) * 0.2 ;
+	sword_point = (sf_Stat.getPoint() + pf_Stat.getPoint() + c_Stat.getPoint() + sg_Stat.getPoint() + pg_Stat.getPoint()) * 0.1;
+	sword = (sword_assist + sword_point) * 100;
+	
+	return sword;
+}
 }
