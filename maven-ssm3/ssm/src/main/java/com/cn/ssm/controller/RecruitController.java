@@ -44,7 +44,7 @@ public class RecruitController {
 	
 	@RequestMapping(value="show",produces = "text/html;charset=utf-8")
     public void show(HttpServletRequest request,HttpServletResponse response, Model model)throws Exception{
-		int userId = Integer.parseInt(request.getParameter("id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		//int userId=1;
 		User user = userService.getById(userId); 
 		List<Players> playerlist = playerMapper.selectDirPlayers();
@@ -68,10 +68,8 @@ public class RecruitController {
     }
 	@RequestMapping("/playerInfo")
     public void playerInfoPost(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		int userId = Integer.parseInt(request.getParameter("id"));
-		//int userId=1;
-		String name= request.getParameter("name");
-		//String name="kuli";
+		//String name= request.getParameter("playerName");
+		String name="kuli";
 		Players player =playerMapper.selectByName(name);
 		int playerId=player.getId();
 		PlayersInfo playerInfo= playerInfoMapper.selectByPrimaryKey(playerId);
@@ -91,7 +89,7 @@ public class RecruitController {
 	}
 	@RequestMapping("/addPlayer")
     public void playerAdd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		int userId = Integer.parseInt(request.getParameter("id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		//int userId=1;
 		User user = userService.getById(userId);	
 	    String playerName=request.getParameter("playerName");
@@ -130,7 +128,7 @@ public class RecruitController {
 	}
 	@RequestMapping("/DirectPos")
     public void posShow(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		int userId = Integer.parseInt(request.getParameter("id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		//int userId=1;
 		String position= request.getParameter("position");
 		List<Players> playerlist =new ArrayList<Players>();
@@ -158,7 +156,7 @@ public class RecruitController {
 	}
 	@RequestMapping("/DirectScore")
     public void scoreShow(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		int userId = Integer.parseInt(request.getParameter("id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		//int userId=1;
 		List<Players> playerList = IRDirectService.recruitScore(userId);
 		response.setContentType("application/json");
@@ -180,7 +178,7 @@ public class RecruitController {
 	}
 	@RequestMapping("/DirectSalary")
     public void salaryShow(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		int userId = Integer.parseInt(request.getParameter("id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		//int userId=1;
 
 		List<Players> playerList = IRDirectService.recruitSalary(userId);
@@ -204,13 +202,13 @@ public class RecruitController {
 	
 	@RequestMapping("/luckilyFree")
     public void freeShow(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		//int userId = Integer.parseInt(request.getParameter("id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		
 		response.setContentType("application/json");
 		PrintWriter out = null;
 		JSONObject json = new JSONObject();
 		Goods goods = new Goods();		
-		int userId=1;
+		//int userId=1;
 		User user = userService.getById(userId);
         int flag=user.getRecruited(); //鍒ゆ柇鏄惁鏈夊厤璐规嫑鍕熸満浼�
         System.out.println(flag+"   鏄惁鍏嶈垂鎷涘嫙杩�");
@@ -265,8 +263,8 @@ public class RecruitController {
 	}
 	@RequestMapping("/luckilyOnce")
     public void onceShow(HttpServletRequest request,HttpServletResponse response, Model model)throws Exception{
-		//int userId = Integer.parseInt(request.getParameter("id"));
-		int userId=1;
+		int userId = Integer.parseInt(request.getParameter("user_id"));
+		//int userId=1;
 		User user = userService.getById(userId);
 		Goods goods=IRLuckService.recruitOnce(userId);
 		response.setContentType("application/json");
@@ -287,8 +285,8 @@ public class RecruitController {
 	}
 	@RequestMapping("/luckilyFive")
     public void fiveShow(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		//int userId = Integer.parseInt(request.getParameter("id"));
-		int userId=1;
+		int userId = Integer.parseInt(request.getParameter("user_id"));
+		//int userId=1;
 		User user = userService.getById(userId);
         List<Goods> goodslist = new ArrayList<Goods>();
         for(int i=0;i<4;i++) {
